@@ -3,6 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\Claudia\\Documents\\Arduino\\libraries\\Adafruit_PN532",
                 "C:\\Users\\Claudia\\Documents\\Arduino\\tools\\**",
                 "C:\\Users\\Claudia\\Documents\\Arduino\\libraries\\**",
                 "C:\\Users\\Claudia\\Documents\\Arduino\\hardware\\espressif\\esp32\\**"
@@ -13,7 +14,6 @@
             "cStandard": "c11",
             "cppStandard": "c++17"
         }
-
     ],
     "version": 4
 }
