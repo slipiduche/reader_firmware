@@ -3,6 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\Claudia\\Documents\\ArduinoData\\packages\\esp32\\tools\\**",
+                "C:\\Users\\Claudia\\Documents\\ArduinoData\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
                 "C:\\Users\\Claudia\\Documents\\Arduino\\libraries\\Adafruit_PN532",
                 "C:\\Users\\Claudia\\Documents\\Arduino\\tools\\**",
                 "C:\\Users\\Claudia\\Documents\\Arduino\\libraries\\**",

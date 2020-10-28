@@ -31,6 +31,7 @@
 *      *  Requisitos para compilar el codigo:
 
   -Tener instalado arduino ide-1.8.12
+  - Esp32 arduino core 1.0.4 (para poder compilar pn532)
   -Descomprimir todos los archivos de la carpeta librerias en el directorio de librerías de Arduino.
 
 
