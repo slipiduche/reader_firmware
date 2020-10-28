@@ -25,6 +25,8 @@
        EEPROM.h            ---> Libreria que funciona por defecto al instalar Arduino ide
        RTClib.h          ---> adafruit  version 1.11.0
        ESP32WebServer.h    ---> Por Ivan Grokhotkov Version 1.0 <-- ivan@ESP32.com IOTSHARING.COM https://github.com/nhatuan84/esp32-webserver
+       Adafruit_PN532.h ---> v 1.2.0 adafruit (adafruit busio v 1.6.0)
+
        
 
 
