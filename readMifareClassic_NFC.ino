@@ -33,9 +33,8 @@ products from Adafruit!
 /**************************************************************************/
 
 void nfcSetup(void) {
-  Serial.begin(115200);
-  while (!Serial) delay(10); // for Leonardo/Micro/Zero
-
+  
+  
   Serial.println("Hello!");
 
   nfc.begin();
@@ -43,7 +42,7 @@ void nfcSetup(void) {
   uint32_t versiondata = nfc.getFirmwareVersion();
   if (! versiondata) {
     Serial.print("Didn't find PN53x board");
-    while (1); // halt
+    
   }
   // Got ok data, print it out!
   Serial.print("Found chip PN5"); Serial.println((versiondata>>24) & 0xFF, HEX); 
@@ -90,4 +89,3 @@ void nfcLoop(void) {
     Serial.println("");
   }
 }
-

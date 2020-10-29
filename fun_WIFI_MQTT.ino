@@ -23,7 +23,7 @@ void callback(char *topic, byte *payload, unsigned int length)
   //loadmqttconfig(datarecvd);                                  //Ubicada en fun_loadconfig.ino--> Verifica si la trama es un comando de configuración vàlido
   DEBUG_PRINTLN();
   DEBUG_PRINTLN("-----------------------");
-  loadMqttCommand(datarecvd); ///ubicada en fun_loadmqttcommand.ino
+  //loadMqttCommand(datarecvd); ///ubicada en fun_loadmqttcommand.ino
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_setup()
@@ -92,7 +92,7 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
     {
       DEBUG_PRINT("Attempting MQTT connection...");
       
-      clientId += String(chipid);
+      
       String topic_s = clientId + "/out";
 
       DEBUG_PRINTLN(MQTTUsername);
@@ -104,7 +104,7 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
         wifi_mqtt_publish(topic_s.c_str(), "{\"mqtt\": \"RECONNECTED\"}");
         topic_s = "";
         
-        clientId += String(chipid);
+        
         topic_s = clientId + "/in";
 
         wifi_mqtt_subscribe(topic_s.c_str());
@@ -151,7 +151,7 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
     {
       DEBUG_PRINT("Attempting MQTT connection...");
       
-      clientId += String(chipid);
+      
       topic_s = clientId + "/out";
       DEBUG_PRINTLN(topic_s);
 
@@ -165,7 +165,7 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
         wifi_mqtt_publish(topic_s.c_str(), "{\"mqtt\": \"RECONNECTED\"}");
         topic_s = "";
        
-        clientId += String(chipid);
+        
         topic_s = clientId + "/in";
 
         wifi_mqtt_subscribe(topic_s.c_str());
@@ -252,174 +252,8 @@ void wifi_mqtt_loop()
   mqttclient.loop();
   if (abs(millis() - mqttdelay) >= 500)
   {
-    mqtt_send_changes();
+   // mqtt_send_changes();
     mqttdelay = millis();
-  }
-}
-void mqtt_send_changes()
-{
-  int counter = 0;
-  String mensaje = "", min_aux = "", hora_aux = "";
-
-  //verifica si ocurrió cambio en valvulas
-  for (int i = 0; i < 4; i++)
-  {
-    if (val_aux1[i] != valvulas[i + 1])
-    {
-      val_aux1[i] = valvulas[i + 1];
-      counter++;
-    }
-  }
-  if (counter > 0)
-  {
-    solicitud_web = 1; //envía todo
-  }
-  if (envia_horarios==1)
-  { mensaje = "";
-    clientId = "";
-    //si ocurrió cambio envía a broker
-    
-    clientId += String(chipid);
-    String topic_valve = clientId + "/out";
-    DEBUG_PRINTLN(topic_valve);
-    mensaje = "{\"horarios\":["; //1,1,1,1]}"";
-    mensaje +=  String(numero_horarios) + ",";
-    for (int i = 0; i < numero_horarios * 6; i++)
-    {
-      mensaje += String(horario[i]);
-      if (i == (6 * numero_horarios - 1))
-      {
-        mensaje += "]}";
-      }
-      else
-      {
-        mensaje += ",";
-      }
-    }
-    DEBUG_PRINTLN(mensaje);
-    wifi_mqtt_publish(topic_valve.c_str(), mensaje.c_str());
-    envia_horarios = 0;
-    solicitud_web = 0;
-  }
-  if (solicitud_web == 1)
-  {
-    mensaje = "";
-    clientId = "";
-    //si ocurrió cambio envía a broker
-    
-    clientId += String(chipid);
-
-    String topic_valve = clientId + "/out";
-    DEBUG_PRINTLN(topic_valve);
-    mensaje = "{\"estado_valvulas\":["; //1,1,1,1]}"";
-    mensaje = mensaje + String(!valvulas[1]) + "," + String(!valvulas[2]) + "," + String(!valvulas[3]) + "," + String(!valvulas[4]) + "],\"modo_activo\":";
-
-    mensaje = mensaje + String(modo_automatico) + ",\"proximo_ciclo\":\"";
-
-    min_aux = String(horario[6 * (proximo_ciclo - 1) + 1]);
-    if (horario[6 * (proximo_ciclo - 1) + 1] < 10)
-    {
-      min_aux = "0" + String(horario[6 * (proximo_ciclo - 1) + 1]);
-    }
-    hora_aux = String(horario[6 * (proximo_ciclo - 1)]);
-    if (horario[6 * (proximo_ciclo - 1)] < 10)
-    {
-      hora_aux = "0" + String(horario[6 * (proximo_ciclo - 1)]);
-    }
-    String Shora=String(hora);
-    if (hora<10)
-    {
-      Shora="0"+Shora;
-    }
-    String Smin=String(minuto);
-    if (minuto<10)
-    {
-      Smin="0"+Smin;
-    }
-    String Sdia=String(dia);
-    if (dia<10)
-    {
-      Sdia="0"+Sdia;
-    }
-    String Smes=String(mes);
-    if (mes<10)
-    {
-      Smes="0"+Smes;
-    }
-    mensaje = mensaje + hora_aux + ":" + min_aux + " " + String(Dia_semana[dia_prox_ciclo])+ "\",\"hora\":\"";// + "\"}";
-    mensaje = mensaje+ String(Shora)+":" +String(Smin)+"\",\"fecha\":\"";
-    mensaje = mensaje+ String(ano)+"-" +String(Smes)+"-"+String(Sdia) + "\"}";
-    DEBUG_PRINTLN(mensaje);
-    DEBUG_PRINTLN(mensaje.c_str());
-    wifi_mqtt_publish(topic_valve.c_str(), mensaje.c_str());
-    solicitud_web = 0;
-    envia_horarios=1;
-  }
-  else if (counter > 0)
-  {
-    mensaje = "";
-    clientId = "";
-    //si ocurrió cambio envía a broker
-    
-    clientId += String(chipid);
-
-    String topic_valve = clientId + "/out";
-    DEBUG_PRINTLN(topic_valve);
-    mensaje = "{\"estado_valvulas\":["; //1,1,1,1]}"";
-    mensaje = mensaje + String(!valvulas[1]) + "," + String(!valvulas[2]) + "," + String(!valvulas[3]) + "," + String(!valvulas[4]) + "]}";
-
-    wifi_mqtt_publish(topic_valve.c_str(), mensaje.c_str());
-  }
-  else if (modo_automatico_aux1 != modo_automatico) ///envía cambio de modos
-  {
-    mensaje = "";
-    clientId = "";
-    modo_automatico_aux1 = modo_automatico;
-    
-    
-    clientId += String(chipid);
-
-    String topic_valve = clientId + "/out";
-    DEBUG_PRINTLN(topic_valve);
-    mensaje = "{\"modo_activo\":"; //1}";
-    mensaje = mensaje + String(modo_automatico) + "}";
-
-    wifi_mqtt_publish(topic_valve.c_str(), mensaje.c_str());
-
-    env_prox = 1;
-  }
-  else if (modo_nowc_aux1 != modo_nowc) ///envía cambio de modos
-  {
-    modo_nowc_aux1 = modo_nowc;
-    
-  }
-  else if ((proximo_ciclo_aux1 != proximo_ciclo) || env_prox == 1) ///envía cambios de proximo ciclo a web
-  {
-    mensaje = "";
-    clientId = "";
-    proximo_ciclo_aux1 = proximo_ciclo;
-    env_prox = 0;
-    if (modo_automatico == 1)
-    {
-
-     
-      clientId += String(chipid);
-      String topic_valve = clientId + "/out";
-      DEBUG_PRINTLN(topic_valve);
-      mensaje = "{\"proximo_ciclo\":\""; //]}";
-      min_aux = String(horario[6 * (proximo_ciclo - 1) + 1]);
-      if (horario[6 * (proximo_ciclo - 1) + 1] < 10)
-      {
-        min_aux = "0" + String(horario[6 * (proximo_ciclo - 1) + 1]);
-      }
-      hora_aux = String(horario[6 * (proximo_ciclo - 1)]);
-      if (horario[6 * (proximo_ciclo - 1)] < 10)
-      {
-        hora_aux = "0" + String(horario[6 * (proximo_ciclo - 1)]);
-      }
-      mensaje = mensaje + hora_aux + ":" + min_aux + " " + String(Dia_semana[dia_prox_ciclo]) + "\"}";
-      wifi_mqtt_publish(topic_valve.c_str(), mensaje.c_str());
-    }
   }
 }
 

@@ -29,29 +29,38 @@
 void loop() ///HMI LOOP
 {
   wifiLedBlink();
-  
-  
-  if(guardarAp==1)
+
+
+  if (guardarAp == 1)
   {
     save_config1_spiff();
     ESP.restart();
   }
-  if(cambioIp==1)
-  { 
-    cambioIp=0;
+  if (cambioIp == 1)
+  {
+    cambioIp = 0;
   }
   DEBUG_PRINT("inicio:");
   DEBUG_PRINTLN(inicio);
+  
+   if (abs(millis() - nfcDelay) >= 250) 
+  { 
+    nfcLoop();
+    nfcDelay = millis();
+    
+    
+  }
+
 }
 void WebComm(void *parameter) ///webloop
 {
   for (;;)
   {
-    if ((inicio == 0)&&(apMode==0))
+    if ((inicio == 0) && (apMode == 0))
     {
       wifi_mqtt_setup();
     }
-    if ((inicio == 1)&&(apMode==0))
+    if ((inicio == 1) && (apMode == 0))
     { //DEBUG_PRINT("inicio1:");
       //DEBUG_PRINTLN(inicio);
       wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
@@ -59,17 +68,17 @@ void WebComm(void *parameter) ///webloop
     //Serial.print("WebComm() running on core ");
     // Serial.println(xPortGetCoreID());
     //MQTT
-    if ((inicio == 2)&&(apMode==0))
+    if ((inicio == 2) && (apMode == 0))
     { //DEBUG_PRINT("inicio2:");
       //DEBUG_PRINTLN(inicio);
       if (modo_nowc == 1) ///Si no esta siendo utilizada la pantalla HMI
       {
+
         
-        clientId += String(chipid);
-        DEBUG_PRINT("client state:");
-        DEBUG_PRINTLN(mqttclient.state());
+        //DEBUG_PRINT("client state:");
+        //DEBUG_PRINTLN(mqttclient.state());
         if (mqttclient.state() != 0 || subscribed == 0)
-        {                               ///0 significa conectado   si no esta conectado intnta reconnecion con broker
+        { ///0 significa conectado   si no esta conectado intnta reconnecion con broker
           if (mqttclient.state() != -1) ///-1 significa desconectado
           {
             mqttclient.disconnect();
@@ -84,7 +93,7 @@ void WebComm(void *parameter) ///webloop
         }
       }
       wifi_mqtt_loop(); ///proceso en el cual se maneja el cliente de conexion mqtt
-      
+
     }
   }
   vTaskDelay(10000);
@@ -97,5 +106,5 @@ void APmode(void *parameter) ///APmode
     //Serial.println(xPortGetCoreID());
     apweb_loop();
   }
-  vTaskDelay(3000);
+  vTaskDelay(1000);
 }

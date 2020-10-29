@@ -19,30 +19,7 @@ void setup()
   }
   pinMode(wifiled, OUTPUT);
   wifiLedBlink();
-  // iniciando RTCC y comprobando tiempo
-  Wire.begin();
-  if(rtc.begin())
-  {
-  now = rtc.now(); //get the current date-time}
-  Serial.print(now.year(), DEC);
-    Serial.print('/');
-    Serial.print(now.month(), DEC);
-    Serial.print('/');
-    Serial.print(now.day(), DEC);
-    Serial.print(' ');
-    Serial.print(now.hour(), DEC);
-    Serial.print(':');
-    Serial.print(now.minute(), DEC);
-    Serial.print(':');
-    Serial.print(now.second(), DEC);
-    Serial.println();
-  }
-  else
-  {
-    DEBUG_PRINTLN('falla rtc');
-    rtcFalla=1;
-  }
-  
+
   // char bufferRtc[20];
   
   rtcSoft.begin(now);
@@ -71,9 +48,9 @@ void setup()
   
                             ///leer archivos de configuracion del equipo
   chipid = get_chipidstr(); //obitene el chipid
-  
+  clientId += String(chipid);
   fun_spiff_setup();        //Funcion ubicada en fun_spiff
-  if(boottime==3)
+  if(boottime==bootX)
   {
   read_spiffconfig1();      //Funcion ubicada en fun_spiff
   //read_spiffconfig2();      //Funcion ubicada en fun_spiff
@@ -86,12 +63,13 @@ void setup()
     save_modo_spiff();
     save_config1_spiff();
     //save_config2_spiff();
-    EEPROM.write(1,3); //(pos,dato)
+    EEPROM.write(1,bootX); //(pos,dato)
     EEPROM.commit();
 
   }
  
   web_setup();              //apmode
+  nfcSetup();//nfc setup
   setup_dualcore();         ///configuración de elementos de rtos
   
   

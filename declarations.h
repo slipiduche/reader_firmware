@@ -389,7 +389,7 @@ char datarecvd[512]; //utilizada para la recepción de comandos mqtt vía wifi
 int reconnect = 0;   //utilizada para controlar los intentos de reconexion como cliente mqtt wifi
 /****parametros mqtt ****/
 
-char MQTTHost[120] = "sdrorbittas.sytes.net";  //"broker.mqttdashboard.com"; //                        //"mqtt01.ejemplo.com" Nombre del Host del broker MQTT
+char MQTTHost[120] = "broker.mqttdashboard.com";  //"broker.mqttdashboard.com"; //                        //"mqtt01.ejemplo.com" Nombre del Host del broker MQTT
 char MQTTPort[6] = "1883";                     //"1883" Puerto Broker MQTT
 char MQTTClientID[60] = "";                    //ClientID MQTT utilizado para identificarse como cliente en la subscripcion a un topico, tambien usado como nombre de dispositivo
 char MQTTTopic[60] = "";                       //Topico Salida donde se envia la data al broker
@@ -458,8 +458,11 @@ bool cambioFechaHora=false;
 #define PN532_SCK  (18)
 #define PN532_MISO (19)
 #define PN532_MOSI (23)
-#define PN532_SS   (2)
+#define PN532_SS   (15)
+
+#define bootX 4
 Adafruit_PN532 nfc(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS);
+long int nfcDelay=0;
 
 
 // Uncomment just _one_ line below depending on how your breakout or shield
@@ -475,5 +478,3 @@ Adafruit_PN532 nfc(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS);
 
 // Or use this line for a breakout or shield with an I2C connection:
 //Adafruit_PN532 nfc(PN532_IRQ, PN532_RESET);
-
-

@@ -778,4 +778,3 @@ void getData()
     SendHTML_Stop(); // detiene el envío si es necesario
   }
 }
-

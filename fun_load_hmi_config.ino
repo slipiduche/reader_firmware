@@ -374,4 +374,3 @@ void load_hmi_config(String datar)
   
   }
 }
-
