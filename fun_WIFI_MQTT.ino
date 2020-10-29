@@ -44,7 +44,7 @@ void wifi_mqtt_setup()
     if (count > 50)
     {
       count = 0;
-      apMode=1;
+      apMode = 1;
       break;
     }
     wifiLedBlink();
@@ -58,10 +58,10 @@ void wifi_mqtt_setup()
     DEBUG_PRINTLN(WRSSI);
     DEBUG_PRINTLN("WiFi connected");
     DEBUG_PRINTLN("STATION IP address: ");
-    
-    ipRed=String(WiFi.localIP()[0])+"."+String(WiFi.localIP()[1])+"."+String(WiFi.localIP()[2])+"."+String(WiFi.localIP()[3]);
+
+    ipRed = String(WiFi.localIP()[0]) + "." + String(WiFi.localIP()[1]) + "." + String(WiFi.localIP()[2]) + "." + String(WiFi.localIP()[3]);
     DEBUG_PRINTLN(ipRed);
-    cambioIp=1;
+    cambioIp = 1;
     count = 0;
   }
   String MQTTPORT = String(MQTTPort);
@@ -86,13 +86,13 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
 
   String topic_s = "";
 
-  if ((WiFi.status() == WL_CONNECTED)&&(apMode==0))
+  if ((WiFi.status() == WL_CONNECTED) && (apMode == 0))
   {
     while (!mqttclient.connected())
     {
       DEBUG_PRINT("Attempting MQTT connection...");
-      
-      
+
+
       String topic_s = clientId + "/out";
 
       DEBUG_PRINTLN(MQTTUsername);
@@ -103,8 +103,8 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
         inicio = 2;
         wifi_mqtt_publish(topic_s.c_str(), "{\"mqtt\": \"RECONNECTED\"}");
         topic_s = "";
-        
-        
+
+
         topic_s = clientId + "/in";
 
         wifi_mqtt_subscribe(topic_s.c_str());
@@ -121,8 +121,8 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
 #endif
         reconnect++;
 
-        if ((reconnect > 4)&&(apMode==0)) //Realiza 3 intentos de reconexion y sale del bucle.
-        { apMode=1;
+        if ((reconnect > 4) && (apMode == 0)) //Realiza 3 intentos de reconexion y sale del bucle.
+        { apMode = 1;
           reconnect = 0;
           WiFi.reconnect();
           inicio = 1;
@@ -145,13 +145,13 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 {
   String topic_s = "";
 
-  if ((WiFi.status() == WL_CONNECTED)&&(apMode==0))
+  if ((WiFi.status() == WL_CONNECTED) && (apMode == 0))
   {
     while (!mqttclient.connected())
     {
       DEBUG_PRINT("Attempting MQTT connection...");
-      
-      
+
+
       topic_s = clientId + "/out";
       DEBUG_PRINTLN(topic_s);
 
@@ -164,8 +164,8 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
         inicio = 2;
         wifi_mqtt_publish(topic_s.c_str(), "{\"mqtt\": \"RECONNECTED\"}");
         topic_s = "";
-       
-        
+
+
         topic_s = clientId + "/in";
 
         wifi_mqtt_subscribe(topic_s.c_str());
@@ -182,8 +182,8 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 #endif
         reconnect++;
 
-        if ((reconnect > 4)&&(apMode==0)) //Realiza 3 intentos de reconexion y sale del bucle.
-        { apMode=1;
+        if ((reconnect > 4) && (apMode == 0)) //Realiza 3 intentos de reconexion y sale del bucle.
+        { apMode = 1;
           reconnect = 0;
           WiFi.reconnect();
           inicio = 1;
@@ -227,14 +227,14 @@ int wifi_mqtt_subscribe(String mqtttopic)
   DEBUG_PRINTLN(mqtt_connected);
   if (mqtt_connected)
   {
-    if(mqttclient.subscribe((clientId + "/in").c_str()))
+    if (mqttclient.subscribe((clientId + "/in").c_str()))
     {
-    wifi_mqtt_publish((clientId + "/out"), "{\"mqtt\": \"SUBSCRIBED\"}");
-    DEBUG_PRINTLN("WSUBSCRIBE PACKET SENT");
-    subscribed=1;
-    apMode=0;
-    minutosEnApMode=0;
-    return 1;
+      wifi_mqtt_publish((clientId + "/out"), "{\"mqtt\": \"SUBSCRIBED\"}");
+      DEBUG_PRINTLN("WSUBSCRIBE PACKET SENT");
+      subscribed = 1;
+      apMode = 0;
+      minutosEnApMode = 0;
+      return 1;
     }
   }
   else
@@ -252,7 +252,12 @@ void wifi_mqtt_loop()
   mqttclient.loop();
   if (abs(millis() - mqttdelay) >= 500)
   {
-   // mqtt_send_changes();
+    // mqtt_send_changes();
+    if (tagId > 0)
+    {
+      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":" + String(tagId) + "}");
+      tagId = 0;
+    }
     mqttdelay = millis();
   }
 }

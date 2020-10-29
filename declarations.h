@@ -54,7 +54,7 @@ ESP32WebServer server(80); //utilizado en la implementacion de un servidor local
 File logFile; //utilizado para el fujo de datos con Spiff
 
 /*
-const char* root_ca = \
+  const char* root_ca = \
                       "-----BEGIN CERTIFICATE-----\n" \
                       "MIIFxTCCBK2gAwIBAgIQQRtJ4xBr6EiECpiBU9M+VTANBgkqhkiG9w0BAQsFADCB\n" \
                       "jzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G\n" \
@@ -88,7 +88,7 @@ const char* root_ca = \
                       "b5ep0+QV6s70H4NKthW8G3RBDJzdR8XW34nzcFx/2rAtNbpvGnsA0PxEhVlN768I\n" \
                       "si+ok66/RnV1nqOhh17oe5O4DGupbyznjqms+B9683iEQC42Zq+HeVk=\n" \
                       "-----END CERTIFICATE-----\n";
-const char* test_client_cert = \
+  const char* test_client_cert = \
                                "-----BEGIN CERTIFICATE-----\n" \
                                "MIIFxTCCBK2gAwIBAgIQQRtJ4xBr6EiECpiBU9M+VTANBgkqhkiG9w0BAQsFADCB\n" \
                                "jzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G\n" \
@@ -124,7 +124,7 @@ const char* test_client_cert = \
                                "-----END CERTIFICATE-----\n" ;
 */
 /*
-const char* test_client_key = \
+  const char* test_client_key = \
                               "-----BEGIN RSA PRIVATE KEY-----\n" \
                               "MIIEpAIBAAKCAQEAzuruUcGb1GbnGpS02vR1uKbsFH2hrJ+e4q3w+kQL3sh3jmbr\n" \
                               "zze/0RhuntCL39CZ4hQODfnZuLRCafh6TFv8/AH63XjF6sBppmIh462x3k77CrZo\n" \
@@ -220,10 +220,10 @@ bool SD_present = false; //se usa para indicar la presencia de la sd en las func
 unsigned long actualizar_hora = 0;
 
 unsigned long t_ultima_accion = 0;
-unsigned long cuentaSegundos=0;
+unsigned long cuentaSegundos = 0;
 
 uint8_t count = 0;
-uint8_t countRtc=0;
+uint8_t countRtc = 0;
 
 bool connected = 0;
 //----------------------------------------------//
@@ -406,49 +406,49 @@ String clientId = "reader/";
 
 ///changes
 bool val_aux[max_num_valves];///se usa para saber si hubo un cambio en valvulas
-int modo_automatico_aux; 
-int modo_nowc=1;
-int modo_nowc_aux=0;
+int modo_automatico_aux;
+int modo_nowc = 1;
+int modo_nowc_aux = 0;
 ///changes mqtt
 bool val_aux1[max_num_valves];///se usa para saber si hubo un cambio en valvulas
-int modo_automatico_aux1; 
-int modo_nowc1=1;
-int modo_nowc_aux1=0;
+int modo_automatico_aux1;
+int modo_nowc1 = 1;
+int modo_nowc_aux1 = 0;
 
 char ssid_aux[60] = "";     //WIFI SSID
 char password_aux[60] = ""; //WIFI PASSWORD
 char ssid2_aux[60] = "";         //AP SSID
 char password2_aux[60] = ""; //AP PASSWORD
 char host_aux[120] = "";
-char MQTTUsername_aux[60] = "";  
-char MQTTPassword_aux[120] = ""; 
+char MQTTUsername_aux[60] = "";
+char MQTTPassword_aux[120] = "";
 char MQTTHost_aux[120] = ""; //"sdrorbittas.sytes.net";                          //"mqtt01.ejemplo.com" Nombre del Host del broker MQTT
-char MQTTPort_aux[6] = ""; 
+char MQTTPort_aux[6] = "";
 
-int changev=0; //cambio en valvulas
-int changev2=0; //cambio en valvulas
-int inicio=0;
-   
-int proximo_ciclo_aux=0;
-int proximo_ciclo_aux1=0;
-long int mqttdelay=0,blikDelay=0;
-int env_prox=0;//enviar mqtt proximo encendido
-bool solicitud_web=0;
-bool envia_horarios=0;
-bool guardarHorarios=0;
+int changev = 0; //cambio en valvulas
+int changev2 = 0; //cambio en valvulas
+int inicio = 0;
 
-int subscribed=0; ///verifica si esta subscrito a topic
+int proximo_ciclo_aux = 0;
+int proximo_ciclo_aux1 = 0;
+long int mqttdelay = 0, blikDelay = 0;
+int env_prox = 0; //enviar mqtt proximo encendido
+bool solicitud_web = 0;
+bool envia_horarios = 0;
+bool guardarHorarios = 0;
 
-bool rtcFalla=0;
-bool wifiLedState=false;
-bool apMode=0;
+int subscribed = 0; ///verifica si esta subscrito a topic
 
-bool guardarAp=0;
-String ipRed="0.0.0.0";
-bool cambioIp=0;
-long int minutosEnApMode=0;
-int minutoAuxAp=0;
-bool cambioFechaHora=false;
+bool rtcFalla = 0;
+bool wifiLedState = false;
+bool apMode = 0;
+
+bool guardarAp = 0;
+String ipRed = "0.0.0.0";
+bool cambioIp = 0;
+long int minutosEnApMode = 0;
+int minutoAuxAp = 0;
+bool cambioFechaHora = false;
 
 
 ///////////pn532 declarations
@@ -460,10 +460,16 @@ bool cambioFechaHora=false;
 #define PN532_MOSI (23)
 #define PN532_SS   (15)
 
+#define PN532DEBUG
+
 #define bootX 4
 Adafruit_PN532 nfc(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS);
-long int nfcDelay=0;
+long int nfcDelay = 0;
 
+uint8_t tag;
+uint32_t tagId=0;
+uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };  // Buffer to store the returned UID
+uint8_t uidLength;                        // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
 
 // Uncomment just _one_ line below depending on how your breakout or shield
 // is connected to the Arduino:

@@ -1,5 +1,3 @@
-
-
 /*
   Nombre del Proyecto:         Reader firmware
 
@@ -26,8 +24,9 @@
 #include "includes.h"
 
 //programa principal
-void loop() ///HMI LOOP
-{
+void loop() ///nfc LOOP
+{ //Serial.print("nfcloop running on core ");
+    // Serial.println(xPortGetCoreID());
   wifiLedBlink();
 
 
@@ -45,7 +44,7 @@ void loop() ///HMI LOOP
   
    if (abs(millis() - nfcDelay) >= 250) 
   { 
-    nfcLoop();
+    nfc_Loop();
     nfcDelay = millis();
     
     
@@ -106,5 +105,5 @@ void APmode(void *parameter) ///APmode
     //Serial.println(xPortGetCoreID());
     apweb_loop();
   }
-  vTaskDelay(1000);
+  vTaskDelay(3000);
 }
