@@ -39,14 +39,14 @@ void loop() ///nfc LOOP
   {
     cambioIp = 0;
   }
-  DEBUG_PRINT("inicio:");
-  DEBUG_PRINTLN(inicio);
   
-   if (abs(millis() - nfcDelay) >= 250) 
+  
+   if ((abs(millis() - nfcDelay) >= 250) &&(bussyMqtt==0))
   { 
     nfc_Loop();
     nfcDelay = millis();
-    
+    DEBUG_PRINT("inicio:");
+    DEBUG_PRINTLN(inicio);
     
   }
 

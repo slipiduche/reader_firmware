@@ -84,7 +84,10 @@ uint32_t nfc_Loop(void) {
       Serial.println(cardid);
       return cardid;
     }
+    else{
+  return 0;}
     Serial.println("");
   }
-  return 0;
+  else{
+  return 0;}
 }

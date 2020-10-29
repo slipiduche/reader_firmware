@@ -32,7 +32,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 //Descripcion:Esta funcion es la encargada de configurar los parametros de BROKER mqtt a traves de WIFI
 /***********************************************************************/
 void wifi_mqtt_setup()
-{
+{ bussyMqtt=1;
   count = 1;
   WiFi.begin(ssid, password); //Inicia la configuracion wifi local
   DEBUG_PRINTLN("conectando wifi");
@@ -72,6 +72,7 @@ void wifi_mqtt_setup()
   mqttclient.setCallback(callback);
 
   wifi_mqtt_reconnect_setup(MQTTTopic, MQTTTopic2);
+  bussyMqtt=0;
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_reconnect()
@@ -81,7 +82,7 @@ void wifi_mqtt_setup()
 /***********************************************************************/
 
 void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
-{
+{bussyMqtt=1;
   char topicCh[120];
 
   String topic_s = "";
@@ -109,6 +110,7 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
 
         wifi_mqtt_subscribe(topic_s.c_str());
         reconnect = 0;
+        bussyMqtt=0;
       }
       else
       {
@@ -144,7 +146,7 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
 void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 {
   String topic_s = "";
-
+  bussyMqtt=1;
   if ((WiFi.status() == WL_CONNECTED) && (apMode == 0))
   {
     while (!mqttclient.connected())
@@ -170,6 +172,7 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 
         wifi_mqtt_subscribe(topic_s.c_str());
         reconnect = 0;
+        bussyMqtt=0;
       }
       else
       {
@@ -201,7 +204,7 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 //Descripcion:Esta funcion es la encargada de enviar PUBLISH packet MQTT via WIFI
 /***********************************************************************/
 int wifi_mqtt_publish(String mqtttopic, String msg)
-{
+{ bussyMqtt=1;
   DEBUG_PRINTLN("mqtt_connected:");
   bool mqtt_connected = mqttclient.connected();
   DEBUG_PRINTLN(mqtt_connected);
@@ -209,10 +212,12 @@ int wifi_mqtt_publish(String mqtttopic, String msg)
   {
     mqttclient.publish(mqtttopic.c_str(), msg.c_str());
     DEBUG_PRINTLN("WPUBLISH PACKET SENT");
+    bussyMqtt=0;
     return 1;
   }
   else
-    return 0;
+  {bussyMqtt=0;
+    return 0;}
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_subscribe()
@@ -221,7 +226,7 @@ int wifi_mqtt_publish(String mqtttopic, String msg)
 //Descripcion:Esta funcion es la encargada de subscribirse a un tema en BROKER MQTT WIFI
 /***********************************************************************/
 int wifi_mqtt_subscribe(String mqtttopic)
-{
+{ bussyMqtt=1;
   DEBUG_PRINTLN("mqtt_connected:");
   bool mqtt_connected = mqttclient.connected();
   DEBUG_PRINTLN(mqtt_connected);
@@ -234,11 +239,13 @@ int wifi_mqtt_subscribe(String mqtttopic)
       subscribed = 1;
       apMode = 0;
       minutosEnApMode = 0;
+      bussyMqtt=0;
       return 1;
     }
   }
   else
-    return 0;
+  {bussyMqtt=0;
+    return 0;}
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_loop()
@@ -251,7 +258,7 @@ void wifi_mqtt_loop()
 
   mqttclient.loop();
   if (abs(millis() - mqttdelay) >= 500)
-  {
+  { Serial.println(tagId);
     // mqtt_send_changes();
     if (tagId > 0)
     {
