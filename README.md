@@ -45,16 +45,16 @@
 
   Las funciones son las Siguientes (verificar que en la carpeta de compilacion esten todas presentes):
 
-    fun_load_hmi_config.ino --> carga y lectura de dato provenientes de HMI
+    
     fun_loadconfig.ino      --> carga de datos iniciales
     fun_loadmqttcommand.ino --> carga de datos provenientes del broker
     fun_spiff.ino           --> almacenamiento y lectura de datos
     fun_web.ino             --> controladores de web AP
     fun_WIFI_MQTT.ino       --> controladores para funciones de comunicación wifi y mqtt
-    HMI.ino                 --> controlador de protocolo de comunicación HMI
-    outputcontrol.ino       --> control de salida y funciones de temporizacion 
-    SDRV2.ino               --> programa principal (nombre de carpteta de compilacion SDRV2)
+    iocontrol.ino       --> control de salida 
+    reader_firmware.ino               --> programa principal (nombre de carpteta de compilacion SDRV2)
     setup.ino               --> configuraciones de inicio.
-    time.ino                --> configuracion y manejo de funciones del ds3231 como reloj.
+    NFC.ino --> libreria nfc
+    
 
 **
