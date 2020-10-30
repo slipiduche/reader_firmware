@@ -105,8 +105,11 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
         wifi_mqtt_publish(topic_s.c_str(), "{\"mqtt\": \"RECONNECTED\"}");
         topic_s = "";
 
+        topic_s = "SERVER/POLL";
 
-        topic_s = clientId + "/in";
+        wifi_mqtt_subscribe(topic_s.c_str());
+        topic_s = "";
+        topic_s = "SERVER/"+chipid;
 
         wifi_mqtt_subscribe(topic_s.c_str());
         reconnect = 0;
@@ -168,7 +171,11 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
         topic_s = "";
 
 
-        topic_s = clientId + "/in";
+        topic_s = "SERVER/POLL";
+
+        wifi_mqtt_subscribe(topic_s.c_str());
+        topic_s = "";
+        topic_s = "SERVER/"+chipid;
 
         wifi_mqtt_subscribe(topic_s.c_str());
         reconnect = 0;

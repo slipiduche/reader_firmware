@@ -38,7 +38,7 @@
 
 
 
-  Dispositivos : HMI Nextion, 1 modulos relay x4 (total 4 reles), Ds3231
+  Dispositivos : NFC reader pn532
 
   La estructura del programa esta basada en funciones las cuales para facilidad de lectura estan almacenadas en archivos .ino que representan
   funcionalidades específicas del dispositivo, estos archivos deben estar en la carpeta de compilacion del archivo principal.
@@ -52,7 +52,7 @@
       fun_web.ino             --> controladores de web AP
       fun_WIFI_MQTT.ino       --> controladores para funciones de comunicación wifi y mqtt
       iocontrol.ino       --> control de salida 
-      reader_firmware.ino               --> programa principal (nombre de carpteta de compilacion SDRV2)
+      reader_firmware.ino               --> programa principal (nombre de carpteta de compilacion reader_firmware)
       setup.ino               --> configuraciones de inicio.
       NFC.ino --> libreria nfc
     

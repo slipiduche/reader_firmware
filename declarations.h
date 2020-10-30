@@ -359,7 +359,7 @@ int sim900 = 0;           //utilizada para indicar si el mosulo sim900 esta acti
 char ssid[60] = "orbittas";     //WIFI SSID
 char password[60] = "20075194"; //WIFI PASSWORD
 //Parametros para conexion con wless lan local en esp32
-char ssid2[60] = "SDR1";         //AP SSID
+char ssid2[60] = "Reader";         //AP SSID
 char password2[60] = "12345678"; //AP PASSWORD
 String WRSSI;
 /****Variables SPIFF****/
@@ -486,3 +486,10 @@ bool bussyMqtt=0;
 
 // Or use this line for a breakout or shield with an I2C connection:
 //Adafruit_PN532 nfc(PN532_IRQ, PN532_RESET);
+
+
+/////
+String Shora = "", Sfecha = "", Sday = "", Smonth = "", Syear = "", Shr = "", Smin = "";
+
+char buf[20], buf1[20], buf2[20], buf3[20];
+/////

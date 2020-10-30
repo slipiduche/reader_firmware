@@ -57,7 +57,6 @@ void loadMqttCommand(String datar)
         //     valvulas[i]=!(bitRead(estado_valvula, 0));
         //     primeracoma_aux = segundacoma_aux;
         //     segundacoma_aux = datar.indexOf(',', primeracoma_aux + 1);
-
         //     DEBUG_PRINT(String(!valvulas[i]));
         //     DEBUG_PRINT(",");
         // }
@@ -103,70 +102,5 @@ void loadMqttCommand(String datar)
         
         DEBUG_PRINTLN("LOAD MQTT Estado_valvulas SUCCESS");
     }
-    else if (datar.startsWith("{\"FechaYHora\":["))
-    {
-        solicitud_web = 1;
-        int primeracoma = datar.indexOf('[');
-        int segundacoma = datar.indexOf(',', primeracoma + 1);
-        int primeracoma_aux = datar.indexOf('[');
-        int segundacoma_aux = datar.indexOf(',');
-
-        
-        //DEBUG_PRINT("estado_valvulas="); //{\"estado_valvulas\":[0,0,1,1]}
-        DEBUG_PRINT("{\"FechaYHora\":[");
-        
-            String horaMqtt = (datar.substring(primeracoma_aux + 1, segundacoma_aux));
-            String Shr = horaMqtt.substring(0, horaMqtt.indexOf(':'));
-            String Smin = horaMqtt.substring(horaMqtt.indexOf(':') + 1, horaMqtt.indexOf(':') + 3);
-            String fechaMqtt= (datar.substring(segundacoma_aux+1, datar.indexOf(' ')));
-            Syear = fechaMqtt.substring(0, fechaMqtt.indexOf('-'));
-            Smonth = fechaMqtt.substring(fechaMqtt.indexOf('-') + 1, fechaMqtt.indexOf('-') + 3);
-            Sday = fechaMqtt.substring(fechaMqtt.indexOf('-') + 4, fechaMqtt.indexOf('-') + 8);
-            
-        DEBUG_PRINT(horaMqtt);
-        DEBUG_PRINT(",");
-        DEBUG_PRINT(fechaMqtt);
-
-            
-        
-
-        DEBUG_PRINTLN("]}");
-        DEBUG_PRINT("Fecha:");
-    DEBUG_PRINT(Sday);
-    DEBUG_PRINT("/");
-    DEBUG_PRINT(Smonth);
-    DEBUG_PRINT("/");
-    DEBUG_PRINTLN(Syear);
-    DEBUG_PRINT("hora:");
-    DEBUG_PRINT(Shr);
-    DEBUG_PRINT(":");
-    DEBUG_PRINTLN(Smin);
-
-    ano1 = Syear.toInt();
-    mes1 = Smonth.toInt();
-    dia1 = Sday.toInt();
-    hora1 = Shr.toInt();
-    minuto1 = Smin.toInt();
-    DEBUG_PRINT("Fecha:");
-    DEBUG_PRINT(dia1);
-    DEBUG_PRINT("/");
-    DEBUG_PRINT(mes1);
-    DEBUG_PRINT("/");
-    DEBUG_PRINTLN(ano1);
-    DEBUG_PRINT("hora:");
-    DEBUG_PRINT(hora1);
-    DEBUG_PRINT(":");
-    DEBUG_PRINTLN(minuto1);
-    sprintf(buf2, "%02d:%02d", hora1, minuto1);
-    sprintf(buf3, "%02d/%02d/%04d", dia1, mes1, ano1);
-
     
-
-    DateTime dt(ano1, mes1, dia1, hora1, minuto1, segundo1); // seteo el tiempo en 12:00:00-23:11:2017 [HH:MM:SS-dia/mes/año]
-    rtc.adjust(dt);                                           //Adjust date-time as defined 'dt' above
-    rtcSoft.begin(dt);
-    cambioFechaHora=true;
-        
-        DEBUG_PRINTLN("LOAD MQTT Fecha Y Hora SUCCESS");
-    }
 }
