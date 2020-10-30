@@ -5,20 +5,6 @@ void loadMqttCommand(String datar)
 
         DEBUG_PRINTLN("Comando recibido--Ignorado por control HMI");
     }
-    else if (datar.startsWith("{\"enviar_datos_completos\":1}") && (datar.length() > 5)) //si es un comando valido (envia datos a web)
-    {
-        solicitud_web = 1;
-    }
-    else if (datar.startsWith("{\"modo_activo\":0}"))
-    {
-        modo_automatico = 0;
-        solicitud_web = 1;
-    }
-    else if (datar.startsWith("{\"modo_activo\":1}"))
-    {
-        modo_automatico = 1;
-        solicitud_web = 1;
-    }
     else if (datar.startsWith("horarios") && (datar.length() > 5)) //si es un comando valido (comienza por horarios)
     {
         solicitud_web = 1;
