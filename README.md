@@ -1,4 +1,4 @@
-# SDRV2
+# reader_firmware
   Descripcion del Proyecto:
 
   Este proyecto consiste en un ESP32 como elemento central de control
@@ -13,7 +13,7 @@
   date                          8/12/2020
 
 
-  Nombre del archivo :         SDRV2.ino
+  Nombre del archivo :         reader_firmware.ino
 
 
 
@@ -30,7 +30,7 @@
        
 
 
-*      *  Requisitos para compilar el codigo:
+  Requisitos para compilar el codigo:
 
   -Tener instalado arduino ide-1.8.12
   - Esp32 arduino core 1.0.2 (falla con versiones superiores backtrace)
@@ -46,15 +46,15 @@
   Las funciones son las Siguientes (verificar que en la carpeta de compilacion esten todas presentes):
 
     
-    fun_loadconfig.ino      --> carga de datos iniciales
-    fun_loadmqttcommand.ino --> carga de datos provenientes del broker
-    fun_spiff.ino           --> almacenamiento y lectura de datos
-    fun_web.ino             --> controladores de web AP
-    fun_WIFI_MQTT.ino       --> controladores para funciones de comunicación wifi y mqtt
-    iocontrol.ino       --> control de salida 
-    reader_firmware.ino               --> programa principal (nombre de carpteta de compilacion SDRV2)
-    setup.ino               --> configuraciones de inicio.
-    NFC.ino --> libreria nfc
+*     fun_loadconfig.ino      --> carga de datos iniciales
+      fun_loadmqttcommand.ino --> carga de datos provenientes del broker
+      fun_spiff.ino           --> almacenamiento y lectura de datos
+      fun_web.ino             --> controladores de web AP
+      fun_WIFI_MQTT.ino       --> controladores para funciones de comunicación wifi y mqtt
+      iocontrol.ino       --> control de salida 
+      reader_firmware.ino               --> programa principal (nombre de carpteta de compilacion SDRV2)
+      setup.ino               --> configuraciones de inicio.
+      NFC.ino --> libreria nfc
     
 
-**
+
