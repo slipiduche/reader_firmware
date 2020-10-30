@@ -35,8 +35,7 @@ products from Adafruit!
 void nfcSetup(void) {
   
   
-  Serial.println("Hello!");
-
+  
   nfc.begin();
 
   uint32_t versiondata = nfc.getFirmwareVersion();
@@ -85,9 +84,10 @@ uint32_t nfc_Loop(void) {
       return cardid;
     }
     else{
+      nfcSetup();
   return 0;}
     Serial.println("");
   }
-  else{
+  else{nfcSetup();
   return 0;}
 }

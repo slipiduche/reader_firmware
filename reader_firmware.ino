@@ -43,7 +43,7 @@ void loop() ///nfc LOOP
   
    if ((abs(millis() - nfcDelay) >= 250) &&(bussyMqtt==0))
   { 
-    nfc_Loop();
+    tagId=nfc_Loop();
     nfcDelay = millis();
     DEBUG_PRINT("inicio:");
     DEBUG_PRINTLN(inicio);
