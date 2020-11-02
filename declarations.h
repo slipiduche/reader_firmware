@@ -493,3 +493,4 @@ String Shora = "", Sfecha = "", Sday = "", Smonth = "", Syear = "", Shr = "", Sm
 
 char buf[20], buf1[20], buf2[20], buf3[20];
 /////
+bool serverPoll=0;

@@ -55,11 +55,11 @@ void setup()
   read_spiffconfig1();      //Funcion ubicada en fun_spiff
   //read_spiffconfig2();      //Funcion ubicada en fun_spiff
   read_spiffmodo();      //Funcion ubicada en fun_spiff
-  read_spiffhorarios();      //Funcion ubicada en fun_spiff
+  
   }
   else{
     
-    save_horarios_spiff();
+    
     save_modo_spiff();
     save_config1_spiff();
     //save_config2_spiff();

@@ -32,7 +32,8 @@ void callback(char *topic, byte *payload, unsigned int length)
 //Descripcion:Esta funcion es la encargada de configurar los parametros de BROKER mqtt a traves de WIFI
 /***********************************************************************/
 void wifi_mqtt_setup()
-{ bussyMqtt=1;
+{
+  bussyMqtt = 1;
   count = 1;
   WiFi.begin(ssid, password); //Inicia la configuracion wifi local
   DEBUG_PRINTLN("conectando wifi");
@@ -72,7 +73,7 @@ void wifi_mqtt_setup()
   mqttclient.setCallback(callback);
 
   wifi_mqtt_reconnect_setup(MQTTTopic, MQTTTopic2);
-  bussyMqtt=0;
+  bussyMqtt = 0;
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_reconnect()
@@ -82,7 +83,8 @@ void wifi_mqtt_setup()
 /***********************************************************************/
 
 void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
-{bussyMqtt=1;
+{
+  bussyMqtt = 1;
   char topicCh[120];
 
   String topic_s = "";
@@ -92,7 +94,6 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
     while (!mqttclient.connected())
     {
       DEBUG_PRINT("Attempting MQTT connection...");
-
 
       String topic_s = clientId + "/out";
 
@@ -106,14 +107,14 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
         topic_s = "";
 
         topic_s = "SERVER/POLL";
-
+        DEBUG_PRINTLN(topic_s);
         wifi_mqtt_subscribe(topic_s.c_str());
         topic_s = "";
-        topic_s = "SERVER/"+chipid;
-
+        topic_s = "SERVER/" + chipid;
+        DEBUG_PRINTLN(topic_s);
         wifi_mqtt_subscribe(topic_s.c_str());
         reconnect = 0;
-        bussyMqtt=0;
+        bussyMqtt = 0;
       }
       else
       {
@@ -127,7 +128,8 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
         reconnect++;
 
         if ((reconnect > 4) && (apMode == 0)) //Realiza 3 intentos de reconexion y sale del bucle.
-        { apMode = 1;
+        {
+          apMode = 1;
           reconnect = 0;
           WiFi.reconnect();
           inicio = 1;
@@ -149,13 +151,12 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
 void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 {
   String topic_s = "";
-  bussyMqtt=1;
+  bussyMqtt = 1;
   if ((WiFi.status() == WL_CONNECTED) && (apMode == 0))
   {
     while (!mqttclient.connected())
     {
       DEBUG_PRINT("Attempting MQTT connection...");
-
 
       topic_s = clientId + "/out";
       DEBUG_PRINTLN(topic_s);
@@ -170,16 +171,15 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
         wifi_mqtt_publish(topic_s.c_str(), "{\"mqtt\": \"RECONNECTED\"}");
         topic_s = "";
 
-
         topic_s = "SERVER/POLL";
-
+        DEBUG_PRINTLN(topic_s);
         wifi_mqtt_subscribe(topic_s.c_str());
         topic_s = "";
-        topic_s = "SERVER/"+chipid;
-
+        topic_s = "SERVER/" + chipid;
+        DEBUG_PRINTLN(topic_s);
         wifi_mqtt_subscribe(topic_s.c_str());
         reconnect = 0;
-        bussyMqtt=0;
+        bussyMqtt = 0;
       }
       else
       {
@@ -193,7 +193,8 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
         reconnect++;
 
         if ((reconnect > 4) && (apMode == 0)) //Realiza 3 intentos de reconexion y sale del bucle.
-        { apMode = 1;
+        {
+          apMode = 1;
           reconnect = 0;
           WiFi.reconnect();
           inicio = 1;
@@ -211,7 +212,8 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 //Descripcion:Esta funcion es la encargada de enviar PUBLISH packet MQTT via WIFI
 /***********************************************************************/
 int wifi_mqtt_publish(String mqtttopic, String msg)
-{ bussyMqtt=1;
+{
+  bussyMqtt = 1;
   DEBUG_PRINTLN("mqtt_connected:");
   bool mqtt_connected = mqttclient.connected();
   DEBUG_PRINTLN(mqtt_connected);
@@ -219,12 +221,14 @@ int wifi_mqtt_publish(String mqtttopic, String msg)
   {
     mqttclient.publish(mqtttopic.c_str(), msg.c_str());
     DEBUG_PRINTLN("WPUBLISH PACKET SENT");
-    bussyMqtt=0;
+    bussyMqtt = 0;
     return 1;
   }
   else
-  {bussyMqtt=0;
-    return 0;}
+  {
+    bussyMqtt = 0;
+    return 0;
+  }
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_subscribe()
@@ -233,26 +237,29 @@ int wifi_mqtt_publish(String mqtttopic, String msg)
 //Descripcion:Esta funcion es la encargada de subscribirse a un tema en BROKER MQTT WIFI
 /***********************************************************************/
 int wifi_mqtt_subscribe(String mqtttopic)
-{ bussyMqtt=1;
+{
+  bussyMqtt = 1;
   DEBUG_PRINTLN("mqtt_connected:");
   bool mqtt_connected = mqttclient.connected();
   DEBUG_PRINTLN(mqtt_connected);
   if (mqtt_connected)
   {
-    if (mqttclient.subscribe((clientId + "/in").c_str()))
+    if (mqttclient.subscribe((mqtttopic).c_str()))
     {
       wifi_mqtt_publish((clientId + "/out"), "{\"mqtt\": \"SUBSCRIBED\"}");
       DEBUG_PRINTLN("WSUBSCRIBE PACKET SENT");
       subscribed = 1;
       apMode = 0;
       minutosEnApMode = 0;
-      bussyMqtt=0;
+      bussyMqtt = 0;
       return 1;
     }
   }
   else
-  {bussyMqtt=0;
-    return 0;}
+  {
+    bussyMqtt = 0;
+    return 0;
+  }
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_loop()
@@ -265,12 +272,25 @@ void wifi_mqtt_loop()
 
   mqttclient.loop();
   if (abs(millis() - mqttdelay) >= 500)
-  { Serial.println(tagId);
+  {
+    Serial.println(tagId);
     // mqtt_send_changes();
     if (tagId > 0)
     {
-      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":" + String(tagId) + "}");
+      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":" + String(tagId) + ",\"ACTION\":\"START\"}");
       tagId = 0;
+    }
+    if (tagId == 0)
+    {
+      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":" + String(tagId) + ",\"ACTION\":\"STOP\"}");
+      tagId = 0;
+    }
+    if (serverPoll){
+
+      if (wifi_mqtt_publish(("READER/INFO"), "{ \"NAME\": \"READER\",\"CHIP_ID\": \"SERIAL NUMBER\"}"))
+      {
+        serverPoll=0;
+      }
     }
     mqttdelay = millis();
   }
