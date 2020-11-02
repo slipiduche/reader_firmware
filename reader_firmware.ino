@@ -70,9 +70,7 @@ void WebComm(void *parameter) ///webloop
     if ((inicio == 2) && (apMode == 0))
     { //DEBUG_PRINT("inicio2:");
       //DEBUG_PRINTLN(inicio);
-      if (modo_nowc == 1) ///Si no esta siendo utilizada la pantalla HMI
-      {
-
+      
         
         //DEBUG_PRINT("client state:");
         //DEBUG_PRINTLN(mqttclient.state());
@@ -93,7 +91,7 @@ void WebComm(void *parameter) ///webloop
       }
       wifi_mqtt_loop(); ///proceso en el cual se maneja el cliente de conexion mqtt
 
-    }
+    
   }
   vTaskDelay(10000);
 }
