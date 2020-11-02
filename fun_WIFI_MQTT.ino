@@ -20,10 +20,9 @@ void callback(char *topic, byte *payload, unsigned int length)
     datarecvd[i] = payload[i];
   }
 
-  //loadmqttconfig(datarecvd);                                  //Ubicada en fun_loadconfig.ino--> Verifica si la trama es un comando de configuración vàlido
   DEBUG_PRINTLN();
   DEBUG_PRINTLN("-----------------------");
-  //loadMqttCommand(datarecvd); ///ubicada en fun_loadmqttcommand.ino
+  loadMqttCommand(String(datarecvd)); ///ubicada en fun_loadmqttcommand.ino
 }
 /***********************************************************************/
 //Nombre de la funcion :wifi_mqtt_setup()
@@ -275,20 +274,20 @@ void wifi_mqtt_loop()
   {
     Serial.println(tagId);
     // mqtt_send_changes();
-    if (tagId > 0)
-    {
-      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":" + String(tagId) + ",\"ACTION\":\"START\"}");
+    if ((tagId > 0)&&(tagId!=tagIdPrev))
+    { tagIdPrev=tagId;
+      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":\"" + String(tagId) + "\",\"ACTION\":\"START\"}");
       tagId = 0;
     }
-    if (tagId == 0)
-    {
-      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":" + String(tagId) + ",\"ACTION\":\"STOP\"}");
+    if ((tagId == 0)&&(tagId!=tagIdPrev))
+    { tagIdPrev=tagId;
+      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":\"" + String(tagId) + "\",\"ACTION\":\"STOP\"}");
       tagId = 0;
     }
     if (serverPoll){
 
-      if (wifi_mqtt_publish(("READER/INFO"), "{ \"NAME\": \"READER\",\"CHIP_ID\": \"SERIAL NUMBER\"}"))
-      {
+      if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"READER\",\"CHIP_ID\":\""+chipid+"\"}"))
+      { Serial.print("SE ENVIO POLL");
         serverPoll=0;
       }
     }

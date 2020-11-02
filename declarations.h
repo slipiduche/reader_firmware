@@ -468,24 +468,12 @@ long int nfcDelay = 0;
 
 uint8_t tag;
 uint32_t tagId=0;
+uint32_t tagIdPrev=1;
 uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };  // Buffer to store the returned UID
 uint8_t uidLength;                        // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
 
 
 bool bussyMqtt=0;
-// Uncomment just _one_ line below depending on how your breakout or shield
-// is connected to the Arduino:
-
-// Use this line for a breakout with a SPI connection:
-
-// Use this line for a breakout with a hardware SPI connection.  Note that
-// the PN532 SCK, MOSI, and MISO pins need to be connected to the Arduino's
-// hardware SPI SCK, MOSI, and MISO pins.  On an Arduino Uno these are
-// SCK = 13, MOSI = 11, MISO = 12.  The SS line can be any digital IO pin.
-//Adafruit_PN532 nfc(PN532_SS);
-
-// Or use this line for a breakout or shield with an I2C connection:
-//Adafruit_PN532 nfc(PN532_IRQ, PN532_RESET);
 
 
 /////
@@ -493,4 +481,4 @@ String Shora = "", Sfecha = "", Sday = "", Smonth = "", Syear = "", Shr = "", Sm
 
 char buf[20], buf1[20], buf2[20], buf3[20];
 /////
-bool serverPoll=0;
+bool serverPoll=0; /// flag de encuesta servidor
