@@ -86,30 +86,7 @@ void logValue3() //
   logFile.close();
 }
 
-/***********************************************************************/
-//Nombre de la funcion :loghorarios()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada de cargar los parametros de memoria
-//horarios
-/***********************************************************************/
-void loghorarios() //
-{
-  logFile.print("horarios");
 
-  logFile.print(",");
-  logFile.print(numero_horarios);
-
-  logFile.print(",");
-  for (int i = 0; i < (numero_horarios * 6); i++)
-  {
-    logFile.print(horario[i]);
-    logFile.print(",");
-  }
-
-  logFile.print("\r\n");
-  logFile.close();
-}
 /***********************************************************************/
 //Nombre de la funcion :save_modo_spiff()
 //Entrada: Ninguna
@@ -144,40 +121,7 @@ void save_modo_spiff()
   }
   logFile.close();
 }
-/***********************************************************************/
-//Nombre de la funcion :save_horarios_spiff()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada de almacenar parametros CONFIG1 en Spiff
-/***********************************************************************/
 
-void save_horarios_spiff()
-{
-  if (SPIFFS.exists("/horarios.txt")) //verifica si existe un archivo con el nombre config1.txt en el directorio raíz  del sistema spiff
-  {
-    SPIFFS.remove("/horarios.txt"); //si existe lo elimina para la escritura de uno nuevo
-
-    DEBUG_PRINTLN(F("ERRASED"));
-  }
-  DEBUG_PRINTLN("saving in SPIFFS:");
-  fun_spiff_setup();
-  logFile = SPIFFS.open("/horarios.txt", FILE_APPEND); //abre archivo con el nombre config1.txt si no existe lo crea
-  DEBUG_PRINTLN("horarios.txt");
-
-  if (logFile)
-  {
-    loghorarios(); //almacena los parametros de configuración 1 separados por coma','
-    logFile.close();
-    //ESP.restart();
-  }
-  else
-  {
-    logFile.close();
-    DEBUG_PRINTLN("ERROR OPENNIG FILE");
-    fun_spiff_setup();
-  }
-  logFile.close();
-}
 /***********************************************************************/
 //Nombre de la funcion :save_config1_spiff()
 //Entrada: Ninguna
@@ -293,54 +237,7 @@ void read_spiffmodo()
     fun_spiff_setup();
   }
 }
-/***********************************************************************/
-//Nombre de la funcion :read_spiffhorarios()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada de leer el archivo horarios en Spiff
-/***********************************************************************/
-void read_spiffhorarios()
-{
-  fun_spiff_setup();
-  logFile = SPIFFS.open("/horarios.txt"); //abre archivo con el nombre horarios.txt
-  DEBUG_PRINT(F("OPENNING FILE"));
-  int totalBytes = logFile.size();
-  String cadena = "";
-  if (logFile)
-  {
-    if (lastposition3 >= totalBytes)
-      lastposition3 = 0;
-    logFile.seek(lastposition3);
-    while (logFile.available()) //lee el archivo linea por linea en este caso una sola línea de configuración
-    {
-      char caracter = logFile.read();
-      cadena += String(caracter);
-      lastposition3 = logFile.position();
-      if (caracter == 10)
-      {
-        break;
-      }
-    }
 
-    logFile.close(); //cierra el archivo
-    DEBUG_PRINT("length:");
-    DEBUG_PRINTLN(cadena.length());
-    DEBUG_PRINT("position:");
-    DEBUG_PRINTLN(lastposition3);
-    lastposition3=0;
-    DEBUG_PRINT("position:");
-    DEBUG_PRINTLN(lastposition3);
-    DEBUG_PRINT("String readed:");
-    DEBUG_PRINT(cadena);
-    loadsdconfig(cadena); //ubicada en fun_loadconfig.ino --> verifica si el comando es valido y carga la configuracion en el dispositivo
-  }
-  else
-  {
-    logFile.close();
-    DEBUG_PRINTLN(F("OPENNIG FILE ERROR"));
-    fun_spiff_setup();
-  }
-}
 /***********************************************************************/
 //Nombre de la funcion :read_spiffconfig1()
 //Entrada: Ninguna
