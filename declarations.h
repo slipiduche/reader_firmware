@@ -479,6 +479,7 @@ bool bussyMqtt=0;
 /////
 String Shora = "", Sfecha = "", Sday = "", Smonth = "", Syear = "", Shr = "", Smin = "";
 
-char buf[20], buf1[20], buf2[20], buf3[20];
+
 /////
 bool serverPoll=0; /// flag de encuesta servidor
+String devName="room-x";
