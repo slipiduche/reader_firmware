@@ -24,7 +24,7 @@ void web_setup(void)
   server.on("/", dsetup);
   server.on("/getData", getData);
   server.on(
-      "/putData", HTTP_POST, []() { server.send(200); }, putData);
+      "/putData", putData);///debe ser de tipo get
   /****Comandos de Fin de Solicitud****/
   server.begin();
   DEBUG_PRINTLN("HTTP server started");
@@ -111,8 +111,9 @@ void dsetup()
       memset(MQTTPassword, '\0', sizeof(MQTTPassword)); //
       (server.arg(String("URL3"))).toCharArray(MQTTPassword, (server.arg(String("URL2"))).length() + 1);
     }
+
     if (modo_nowc == 1)
-    {
+    { 
       String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
       loadsdconfig(set1);
       guardarAp = 1;
@@ -231,15 +232,15 @@ void SendHTML_Header()
   server.sendContent(webpage);
   webpage = "";
 }
-void SendJson_Header()
+void SendJson(String json)
 {
-  server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  server.sendHeader("Pragma", "no-cache");
-  server.sendHeader("Expires", "-1");
-  server.setContentLength(CONTENT_LENGTH_UNKNOWN);
-  server.send(200, "application/json", "");
-  server.sendContent(webpage);
-  webpage = "";
+  // server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  // server.sendHeader("Pragma", "no-cache");
+  // server.sendHeader("Expires", "-1");
+  // server.setContentLength(CONTENT_LENGTH_UNKNOWN);
+  server.send(200, "application/json", json);
+  
+  
 }
 /***********************************************************************/
 //Nombre de la funcion :SentHTML_Content()
@@ -270,25 +271,29 @@ EndPoint para aplicacion Móvil
 */
 
 void getData()
-{ SendJson_Header();
+{ 
   webpage = "";
-  webpage += F("{\"SSID:\"");
+  webpage += F("{\"SSID\":\"");
   webpage += String(ssid);
-  webpage += F("\",\"PASSWORD:\"");
+  webpage += F("\",\"PASSWORD\":\"");
   webpage += String(password);
-  webpage += ("\",\"CHIPID:\"");
+  webpage += ("\",\"CHIPID\":\"");
   webpage += String(chipid);
-  webpage += F("\",\"NAME:\"");
+  webpage += F("\",\"NAME\":\"");
   webpage += String(devName);
   webpage += F("\"}");
-
-  SendHTML_Content();
+  SendJson(webpage);
+  
   SendHTML_Stop(); // detiene el envío si es necesario
 }
 
 void putData()
-{
-  if (server.args() > 2)
+{ Serial.print("recbiendo datos GET....");
+  Serial.print(server.args());
+  Serial.print(server.arg("plain"));
+  String body = server.arg("plain");
+  Serial.print(body);
+  if (server.hasArg(String("SSID")))
   {
 
     if (server.hasArg(String("SSID")))
@@ -312,21 +317,22 @@ void putData()
       (server.arg(String("NAME"))).toCharArray(devName, (server.arg(String("NAME"))).length() + 1);
     }
     if (modo_nowc == 1)
-    {
+    { Serial.println("configurando....");
       String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
       loadsdconfig(set1);
       guardarAp = 1;
-      SendJson_Header();
+      //SendJson_Header();
       webpage = "";
-      webpage += F("{\"MESSAGE\":\"SUCCESS\"");
-      SendHTML_Content();
+      webpage += F("{\"MESSAGE\":\"SUCCESS\"}");
+      SendJson(webpage);
+      //SendHTML_Content();
       SendHTML_Stop(); // detiene el envío si es necesario
     }
   }
   else
   {
     
-    server.send(405, "application/json", F("{\"ERROR\":\"Method Not Allowed\""));
+    server.send(405, "application/json", F("{\"ERROR\":\"Method Not Allowed\"}"));
     SendHTML_Content();
     SendHTML_Stop();
   }
