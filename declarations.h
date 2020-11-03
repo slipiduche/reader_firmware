@@ -482,4 +482,4 @@ String Shora = "", Sfecha = "", Sday = "", Smonth = "", Syear = "", Shr = "", Sm
 
 /////
 bool serverPoll=0; /// flag de encuesta servidor
-String devName="room-x";
+char devName[10]="room-x";
