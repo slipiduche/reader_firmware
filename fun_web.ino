@@ -116,7 +116,7 @@ void dsetup()
       String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
       loadsdconfig(set1);
       guardarAp = 1;
-      append_page_header();
+      SendHTML_Header();
       webpage += F("<script>");
       webpage += F("  function pulsar(e) {");
       webpage += F("    tecla = (document.all) ? e.keyCode :e.which;");
@@ -166,8 +166,7 @@ void dsetup()
     }
   }
   else
-  {
-    append_page_header();
+  { SendHTML_Header();
     webpage += F("<script>");
     webpage += F("  function pulsar(e) {");
     webpage += F("    tecla = (document.all) ? e.keyCode :e.which;");
@@ -232,6 +231,16 @@ void SendHTML_Header()
   server.sendContent(webpage);
   webpage = "";
 }
+void SendJson_Header()
+{
+  server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  server.sendHeader("Pragma", "no-cache");
+  server.sendHeader("Expires", "-1");
+  server.setContentLength(CONTENT_LENGTH_UNKNOWN);
+  server.send(200, "application/json", "");
+  server.sendContent(webpage);
+  webpage = "";
+}
 /***********************************************************************/
 //Nombre de la funcion :SentHTML_Content()
 //Entrada: Ninguna
@@ -261,7 +270,7 @@ EndPoint para aplicacion Móvil
 */
 
 void getData()
-{
+{ SendJson_Header();
   webpage = "";
   webpage += F("{\"SSID:\"");
   webpage += String(ssid);
@@ -307,6 +316,7 @@ void putData()
       String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
       loadsdconfig(set1);
       guardarAp = 1;
+      SendJson_Header();
       webpage = "";
       webpage += F("{\"MESSAGE\":\"SUCCESS\"");
       SendHTML_Content();
@@ -316,7 +326,7 @@ void putData()
   else
   {
     
-    server.send(405, "text/plain", F("{\"ERROR\":\"Method Not Allowed\""));
+    server.send(405, "application/json", F("{\"ERROR\":\"Method Not Allowed\""));
     SendHTML_Content();
     SendHTML_Stop();
   }
