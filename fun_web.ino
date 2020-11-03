@@ -307,7 +307,7 @@ void putData()
 
       //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
       memset(password, '\0', sizeof(password)); //
-      (server.arg(String("PASSWORD"))).toCharArray(password, (server.arg(String("Password"))).length() + 1);
+      (server.arg(String("PASSWORD"))).toCharArray(password, (server.arg(String("PASSWORD"))).length() + 1);
     }
     if (server.hasArg(String("NAME")))
     {
