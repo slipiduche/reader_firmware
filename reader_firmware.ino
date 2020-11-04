@@ -47,7 +47,7 @@ void WebComm(void *parameter) ///webloop
         }
         subscribed = 0;
         wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
-        //wifi_mqtt_subscribe((clientId + "/in").c_str());
+        
       }
       if (subscribed == 0)
       {

@@ -1,17 +1,5 @@
 #ifdef fun_spiff
 
-void autolog() //
-{
-  logFile.print("automode");
-  logFile.print(",");
-  logFile.print(modo_automatico);
-  logFile.print(",");
-  logFile.print(Sistema_apagado);
-  logFile.print(",");
-  logFile.print("\r\n");
-  logFile.close();
-}
-
 void logValue2() //
 {
   logFile.print("set1");
@@ -90,49 +78,6 @@ void save_config1_spiff()
     fun_spiff_setup();
   }
   logFile.close();
-}
-
-void read_spiffmodo()
-{
-  fun_spiff_setup();
-  logFile = SPIFFS.open("/automode.txt");
-  DEBUG_PRINT(F("OPENNING FILE"));
-  int totalBytes = logFile.size();
-  String cadena = "";
-  if (logFile)
-  {
-    if (lastposition4 >= totalBytes)
-      lastposition4 = 0;
-    logFile.seek(lastposition4);
-    while (logFile.available())
-    {
-      char caracter = logFile.read();
-      cadena += String(caracter);
-      lastposition4 = logFile.position();
-      if (caracter == 10)
-      {
-        break;
-      }
-    }
-
-    logFile.close();
-    DEBUG_PRINT("length:");
-    DEBUG_PRINTLN(cadena.length());
-    DEBUG_PRINT("position:");
-    DEBUG_PRINTLN(lastposition4);
-    lastposition4 = 0;
-    DEBUG_PRINT("position:");
-    DEBUG_PRINTLN(lastposition4);
-    DEBUG_PRINT("String readed:");
-    DEBUG_PRINT(cadena);
-    loadsdconfig(cadena);
-  }
-  else
-  {
-    logFile.close();
-    DEBUG_PRINTLN(F("OPENNIG FILE ERROR"));
-    fun_spiff_setup();
-  }
 }
 
 void read_spiffconfig1()
