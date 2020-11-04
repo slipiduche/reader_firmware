@@ -8,7 +8,6 @@ void loadMqttCommand(String datar)
     else if (datar.startsWith("{\"REQUEST\":\"INFO\"}"))
     {  
         serverPoll=1;
-        Serial.print("llego poll");
     }
        
 }
