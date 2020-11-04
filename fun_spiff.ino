@@ -26,33 +26,6 @@ void logValue2() //
   logFile.close();
 }
 
-void save_modo_spiff()
-{
-  if (SPIFFS.exists("/automode.txt"))
-  {
-    SPIFFS.remove("/automode.txt");
-
-    DEBUG_PRINTLN(F("ERRASED"));
-  }
-  DEBUG_PRINTLN("saving in SPIFFS:");
-  fun_spiff_setup();
-  logFile = SPIFFS.open("/automode.txt", FILE_APPEND);
-  DEBUG_PRINTLN("automode.txt");
-
-  if (logFile)
-  {
-    autolog();
-    logFile.close();
-  }
-  else
-  {
-    logFile.close();
-    DEBUG_PRINTLN("ERROR OPENNIG FILE");
-    fun_spiff_setup();
-  }
-  logFile.close();
-}
-
 void save_config1_spiff()
 {
   if (SPIFFS.exists("/config1.txt"))
