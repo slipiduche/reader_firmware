@@ -9,11 +9,7 @@ void loop() ///nfc LOOP
     save_config1_spiff();
     ESP.restart();
   }
-  if (cambioIp == 1)
-  {
-    cambioIp = 0;
-  }
-
+  
   if ((abs(millis() - nfcDelay) >= 250) && (bussyMqtt == 0))
   {
     tagId = nfc_Loop();
@@ -41,7 +37,6 @@ void WebComm(void *parameter) ///webloop
     if ((inicio == 2) && (apMode == 0))
     { //DEBUG_PRINT("inicio2:");
       //DEBUG_PRINTLN(inicio);
-
       //DEBUG_PRINT("client state:");
       //DEBUG_PRINTLN(mqttclient.state());
       if (mqttclient.state() != 0 || subscribed == 0)

@@ -10,6 +10,5 @@ void loadMqttCommand(String datar)
         serverPoll=1;
         Serial.print("llego poll");
     }
-    
-    
+       
 }
