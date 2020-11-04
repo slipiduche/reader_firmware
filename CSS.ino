@@ -1,9 +1,3 @@
-/***********************************************************************/
-//Nombre de la funcion :append_page_header()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion contiene el encabezado del documento html
-/***********************************************************************/
 void append_page_header() {
   webpage  = F("<!DOCTYPE html><html lang=\"es\">");
   webpage += F("<head>");
@@ -41,12 +35,7 @@ void append_page_header() {
   webpage += F("p{font-size:75%;}");
   webpage += F("</style></head><body><h1>Reader</h1>");
 }
-/***********************************************************************/
-//Nombre de la funcion :append_page_footer()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion contiene el pie de página del documento html
-/***********************************************************************/
+
 void append_page_footer() {
   webpage += F("<ul>");
   //webpage += F("<li><a href='/asetup'>Red Móvil</a></li>");
