@@ -1,41 +1,19 @@
-/***********************************************************************/
-//Nombre de la funcion :web_setup()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion contiene los Comandos de Servidor y comandos de
-//fin de solicitud
-/***********************************************************************/
 
 void web_setup(void)
 {
   DEBUG_PRINTLN("Creating Accesspoint");
-  WiFi.softAP(ssid2, password2); //Crea Access Point
+  WiFi.softAP(ssid2, password2); //Create Access Point
   DEBUG_PRINT("AP IP address:\t");
   DEBUG_PRINTLN(WiFi.softAPIP());
-  /****Comandos de Servidor****/
-  //server.on("/",         HomePage);
-  /*
-    server.on("/download", File_Download);
-    server.on("/upload",   File_Upload);
-    
-    server.on("/delete",   File_Delete);
-    server.on("/dir",      SD_dir);
-  */
+
   server.on("/", dsetup);
   server.on("/getData", getData);
   server.on(
-      "/putData", putData);///debe ser de tipo get
-  /****Comandos de Fin de Solicitud****/
+      "/putData", putData); ///get request
   server.begin();
   DEBUG_PRINTLN("HTTP server started");
 }
 
-/***********************************************************************/
-//Nombre de la funcion :web_loop()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion escucha las conexiones de los clientes.
-/***********************************************************************/
 #ifdef AP
 void apweb_loop(void)
 {
@@ -47,12 +25,6 @@ void apweb_loop()
 }
 #endif
 
-/***********************************************************************/
-//Nombre de la funcion :dsetup()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion imprime en el cliente web la opcion SETUP
-/***********************************************************************/
 void dsetup()
 {
   minutosEnApMode = 0;
@@ -62,34 +34,30 @@ void dsetup()
     if (server.hasArg(String("SSID")))
     {
 
-      memset(ssid, '\0', sizeof(ssid)); //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
+      memset(ssid, '\0', sizeof(ssid));
       (server.arg(String("SSID"))).toCharArray(ssid, (server.arg(String("SSID"))).length() + 1);
     }
     if (server.hasArg(String("Password")))
     {
 
-      //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
       memset(password, '\0', sizeof(password)); //
       (server.arg(String("Password"))).toCharArray(password, (server.arg(String("Password"))).length() + 1);
     }
     if (server.hasArg(String("APSSID")))
     {
 
-      //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
       memset(ssid2, '\0', sizeof(ssid2)); //
       (server.arg(String("APSSID"))).toCharArray(ssid2, (server.arg(String("APSSID"))).length() + 1);
     }
     if (server.hasArg(String("AP_Password")))
     {
 
-      //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
       memset(password2, '\0', sizeof(password2)); //
       (server.arg(String("AP_Password"))).toCharArray(password2, (server.arg(String("AP_Password"))).length() + 1);
     }
     if (server.hasArg(String("WEB_Host")))
     {
 
-      //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
       memset(host, '\0', sizeof(MQTTHost)); //
       (server.arg(String("WEB_Host"))).toCharArray(MQTTHost, (server.arg(String("WEB_Host"))).length() + 1);
     }
@@ -113,7 +81,7 @@ void dsetup()
     }
 
     if (modo_nowc == 1)
-    { 
+    {
       String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
       loadsdconfig(set1);
       guardarAp = 1;
@@ -163,11 +131,12 @@ void dsetup()
       webpage += F("<a href='/'>[Back]</a><br><br> ");
       append_page_footer();
       SendHTML_Content();
-      SendHTML_Stop(); // detiene el envío si es necesario
+      SendHTML_Stop();
     }
   }
   else
-  { SendHTML_Header();
+  {
+    SendHTML_Header();
     webpage += F("<script>");
     webpage += F("  function pulsar(e) {");
     webpage += F("    tecla = (document.all) ? e.keyCode :e.which;");
@@ -213,14 +182,10 @@ void dsetup()
     webpage += F("<a href='/'>[Back]</a><br><br> ");
     append_page_footer();
     SendHTML_Content();
-    SendHTML_Stop(); // detiene el envío si es necesario
+    SendHTML_Stop();
   }
 }
-//Nombre de la funcion :SendHTML_Header()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion imprime html header
-/***********************************************************************/
+
 void SendHTML_Header()
 {
   server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -234,44 +199,23 @@ void SendHTML_Header()
 }
 void SendJson(String json)
 {
-  // server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  // server.sendHeader("Pragma", "no-cache");
-  // server.sendHeader("Expires", "-1");
-  // server.setContentLength(CONTENT_LENGTH_UNKNOWN);
   server.send(200, "application/json", json);
-  
-  
 }
-/***********************************************************************/
-//Nombre de la funcion :SentHTML_Content()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion imprime html content
-/***********************************************************************/
+
 void SendHTML_Content()
 {
   server.sendContent(webpage);
   webpage = "";
 }
-/***********************************************************************/
-//Nombre de la funcion :SendHTML_Stop()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion detiene el cliente web
-/***********************************************************************/
+
 void SendHTML_Stop()
 {
   server.sendContent("");
   server.client().stop();
 }
 
-/*
-EndPoint para aplicacion Móvil
-
-*/
-
 void getData()
-{ 
+{
   webpage = "";
   webpage += F("{\"SSID\":\"");
   webpage += String(ssid);
@@ -283,12 +227,13 @@ void getData()
   webpage += String(devName);
   webpage += F("\"}");
   SendJson(webpage);
-  
-  SendHTML_Stop(); // detiene el envío si es necesario
+
+  SendHTML_Stop();
 }
 
 void putData()
-{ Serial.print("recbiendo datos GET....");
+{
+  Serial.print("recbiendo datos GET....");
   Serial.print(server.args());
   Serial.print(server.arg("plain"));
   String body = server.arg("plain");
@@ -299,39 +244,33 @@ void putData()
     if (server.hasArg(String("SSID")))
     {
 
-      memset(ssid, '\0', sizeof(ssid)); //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
+      memset(ssid, '\0', sizeof(ssid));
       (server.arg(String("SSID"))).toCharArray(ssid, (server.arg(String("SSID"))).length() + 1);
     }
     if (server.hasArg(String("PASSWORD")))
     {
-
-      //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
       memset(password, '\0', sizeof(password)); //
       (server.arg(String("PASSWORD"))).toCharArray(password, (server.arg(String("PASSWORD"))).length() + 1);
     }
     if (server.hasArg(String("NAME")))
     {
-
-      //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
       memset(devName, '\0', sizeof(devName)); //
       (server.arg(String("NAME"))).toCharArray(devName, (server.arg(String("NAME"))).length() + 1);
     }
     if (modo_nowc == 1)
-    { Serial.println("configurando....");
+    {
       String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
       loadsdconfig(set1);
       guardarAp = 1;
-      //SendJson_Header();
       webpage = "";
       webpage += F("{\"MESSAGE\":\"SUCCESS\"}");
       SendJson(webpage);
-      //SendHTML_Content();
-      SendHTML_Stop(); // detiene el envío si es necesario
+      SendHTML_Stop();
     }
   }
   else
   {
-    
+
     server.send(405, "application/json", F("{\"ERROR\":\"Method Not Allowed\"}"));
     SendHTML_Content();
     SendHTML_Stop();

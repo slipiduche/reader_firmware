@@ -1,35 +1,9 @@
-/*
-  Nombre del Proyecto:         Reader firmware
-
-  Descripcion del Proyecto:
-
-  Este proyecto consiste en un ESP32 como elemento central de control
-  encargado de la gestion de todos los datos obtenidos, a
-  traves del cual el dispositivo es controlado y programado vía web o servidor local.
-  Su funcion es enviar informacion proveniente de un tag nfc a traves de protocolo mqtt.
-
-  Author (s)
-  Proyectos Orbittas:           Alejandro Camacaro
-
-
-  version                       1.0.0
-  date                         27/10/2020
-
-
-  Nombre del archivo :         reader_register_firmware.ino
-
-
-
-*/
 #include "includes.h"
 
-//programa principal
 void loop() ///nfc LOOP
-{ //Serial.print("nfcloop running on core ");
-    // Serial.println(xPortGetCoreID());
+{           //Serial.print("nfcloop running on core ");
+  // Serial.println(xPortGetCoreID());
   wifiLedBlink();
-
-
   if (guardarAp == 1)
   {
     save_config1_spiff();
@@ -39,17 +13,14 @@ void loop() ///nfc LOOP
   {
     cambioIp = 0;
   }
-  
-  
-   if ((abs(millis() - nfcDelay) >= 250) &&(bussyMqtt==0))
-  { 
-    tagId=nfc_Loop();
+
+  if ((abs(millis() - nfcDelay) >= 250) && (bussyMqtt == 0))
+  {
+    tagId = nfc_Loop();
     nfcDelay = millis();
     DEBUG_PRINT("inicio:");
     DEBUG_PRINTLN(inicio);
-    
   }
-
 }
 void WebComm(void *parameter) ///webloop
 {
@@ -70,28 +41,25 @@ void WebComm(void *parameter) ///webloop
     if ((inicio == 2) && (apMode == 0))
     { //DEBUG_PRINT("inicio2:");
       //DEBUG_PRINTLN(inicio);
-      
-        
-        //DEBUG_PRINT("client state:");
-        //DEBUG_PRINTLN(mqttclient.state());
-        if (mqttclient.state() != 0 || subscribed == 0)
-        { ///0 significa conectado   si no esta conectado intnta reconnecion con broker
-          if (mqttclient.state() != -1) ///-1 significa desconectado
-          {
-            mqttclient.disconnect();
-          }
-          subscribed = 0;
-          wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
-          //wifi_mqtt_subscribe((clientId + "/in").c_str());
-        }
-        if (subscribed == 0) ///verifica si esta subscrito sino vuelve a intentar la subscripcion
-        {
-          wifi_mqtt_subscribe((clientId + "/in").c_str());
-        }
-      }
-      wifi_mqtt_loop(); ///proceso en el cual se maneja el cliente de conexion mqtt
 
-    
+      //DEBUG_PRINT("client state:");
+      //DEBUG_PRINTLN(mqttclient.state());
+      if (mqttclient.state() != 0 || subscribed == 0)
+      {
+        if (mqttclient.state() != -1) ///-1 disconnected
+        {
+          mqttclient.disconnect();
+        }
+        subscribed = 0;
+        wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
+        //wifi_mqtt_subscribe((clientId + "/in").c_str());
+      }
+      if (subscribed == 0)
+      {
+        wifi_mqtt_subscribe((clientId + "/in").c_str());
+      }
+    }
+    wifi_mqtt_loop();
   }
   vTaskDelay(10000);
 }

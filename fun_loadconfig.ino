@@ -78,46 +78,6 @@ void loadsdconfig(String datar)
     DEBUG_PRINTLN("LOAD CONFIG1 SUCCESS");
   }
 
-  else if (datar.startsWith("set2") && (datar.length() > 40)) //Si es un comando valido (comienza por set2)
-  {                                                           //Se delimitan y organizan los datos separados por comas
-    int primeracoma = datar.indexOf(',');
-    int segundacoma = datar.indexOf(',', primeracoma + 1);
-    int terceracoma = datar.indexOf(',', segundacoma + 1);
-    int cuartacoma = datar.indexOf(',', terceracoma + 1);
-    int coma5 = datar.indexOf(',', cuartacoma + 1);
-    int coma6 = datar.indexOf(',', coma5 + 1);
-    int coma7 = datar.indexOf(',', coma6 + 1);
-    int coma8 = datar.indexOf(',', coma7 + 1);
-    int coma9 = datar.indexOf(',', coma8 + 1);
 
-    //Creación de variables auxiliares
-    //Lectura de intervalos para cada sensor
-    String Read_intervalVL53 = datar.substring(primeracoma + 1, segundacoma);   //Intervalo VL53 4 segundos mínimo
-    String Read_intervalB707C = datar.substring(segundacoma + 1, terceracoma);  //Intervalo B707C 4 segundos mínimo
-    String Read_intervalDS18B20 = datar.substring(terceracoma + 1, cuartacoma); //Intervalo DS18B20 1 seg minimo
-    String FREQ_intervalrdt = datar.substring(cuartacoma + 1, coma5);           //Intervalo de transmision de datos
-    String FREQ_intervalsds = datar.substring(coma5 + 1, coma6);                //Frecuencia de almacenamiento en SD
-    String apn_aux = datar.substring(coma6 + 1, coma7);                         //APN red movil
-    String userapn_aux = datar.substring(coma7 + 1, coma8);                     //USER APN red movil
-    String apnpwd_aux = datar.substring(coma8 + 1, coma9);                      //PASSWORD APN red  movil
-
-    //Inicializacion de variables para escritura y almacenamiento de parametros de configuración
-    memset(__APN, '\0', sizeof(__APN));
-    memset(__usrnm, '\0', sizeof(__usrnm));
-    memset(__password, '\0', sizeof(__password));
-    //Escritura de variables auxiliares a los parametros de configuración.
-    apn_aux.toCharArray(__APN, apn_aux.length() + 1);
-    userapn_aux.toCharArray(__usrnm, userapn_aux.length() + 1);
-    apnpwd_aux.toCharArray(__password, apnpwd_aux.length() + 1);
-
-    DEBUG_PRINT("__APN:");
-    DEBUG_PRINTLN(String(__APN));
-    DEBUG_PRINT("__usrnm:");
-    DEBUG_PRINTLN(String(__usrnm));
-    DEBUG_PRINT("__password:");
-    DEBUG_PRINTLN(String(__password));
-    DEBUG_PRINTLN("LOAD CONFIG2 SUCCESS");
-  }
-  
   
 }

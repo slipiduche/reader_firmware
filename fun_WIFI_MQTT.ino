@@ -1,11 +1,4 @@
 #ifdef USEWIFIMQTT
-/***********************************************************************/
-//Nombre de la funcion :callback()
-//Entrada: char* topic ,byte* payload, unsigned int length
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada de recibir las tramas enviadas desde el broker por el tema subscrito
-//ademas graba carga la configuracion al equipo si recibe un comando valido y lo guarda en la memoria micro SD
-/***********************************************************************/
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
@@ -13,7 +6,7 @@ void callback(char *topic, byte *payload, unsigned int length)
   DEBUG_PRINT("Message arrived in topic: ");
   DEBUG_PRINTLN(topic);
 
-  DEBUG_PRINT("Message:"); //Recepción de trama MQTT
+  DEBUG_PRINT("Message:");
   for (int i = 0; i < length; i++)
   {
     DEBUG_PRINT((char)payload[i]);
@@ -22,22 +15,17 @@ void callback(char *topic, byte *payload, unsigned int length)
 
   DEBUG_PRINTLN();
   DEBUG_PRINTLN("-----------------------");
-  loadMqttCommand(String(datarecvd)); ///ubicada en fun_loadmqttcommand.ino
+  loadMqttCommand(String(datarecvd));
 }
-/***********************************************************************/
-//Nombre de la funcion :wifi_mqtt_setup()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada de configurar los parametros de BROKER mqtt a traves de WIFI
-/***********************************************************************/
+
 void wifi_mqtt_setup()
 {
   bussyMqtt = 1;
   count = 1;
-  WiFi.begin(ssid, password); //Inicia la configuracion wifi local
+  WiFi.begin(ssid, password);
   DEBUG_PRINTLN("conectando wifi");
   while (WiFi.status() != WL_CONNECTED)
-  { //Realiza intentos de conexion a wifi local si no esta conectado
+  {
     delay(500);
     DEBUG_PRINT(".");
     count++;
@@ -74,12 +62,6 @@ void wifi_mqtt_setup()
   wifi_mqtt_reconnect_setup(MQTTTopic, MQTTTopic2);
   bussyMqtt = 0;
 }
-/***********************************************************************/
-//Nombre de la funcion :wifi_mqtt_reconnect()
-//Entrada:char mqtttopic[120],mqtttopic2[120]
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada establecer conexion y reconexion con broker MQTT via WIFI
-/***********************************************************************/
 
 void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
 {
@@ -122,30 +104,21 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
         DEBUG_PRINTLN(" try again in 5 seconds");
 #ifdef AP
 
-        //webloopmodo AP
 #endif
         reconnect++;
 
-        if ((reconnect > 4) && (apMode == 0)) //Realiza 3 intentos de reconexion y sale del bucle.
+        if ((reconnect > 4) && (apMode == 0))
         {
           apMode = 1;
           reconnect = 0;
           WiFi.reconnect();
           inicio = 1;
-          //  break;
         }
       }
       wifiLedBlink();
     }
   }
 }
-
-/***********************************************************************/
-//Nombre de la funcion :wifi_mqtt_reconnect()
-//Entrada:char mqtttopic[120],mqtttopic2[120]
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada establecer conexion y reconexion con broker MQTT via WIFI
-/***********************************************************************/
 
 void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
 {
@@ -187,11 +160,10 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
         DEBUG_PRINTLN(" try again in 5 seconds");
 #ifdef AP
 
-        //webloopmodo AP
 #endif
         reconnect++;
 
-        if ((reconnect > 4) && (apMode == 0)) //Realiza 3 intentos de reconexion y sale del bucle.
+        if ((reconnect > 4) && (apMode == 0))
         {
           apMode = 1;
           reconnect = 0;
@@ -204,12 +176,7 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
     }
   }
 }
-/***********************************************************************/
-//Nombre de la funcion :wifi_mqtt_publish()
-//Entrada: char mqtttopic,char msg[512]
-//Salida :int
-//Descripcion:Esta funcion es la encargada de enviar PUBLISH packet MQTT via WIFI
-/***********************************************************************/
+
 int wifi_mqtt_publish(String mqtttopic, String msg)
 {
   bussyMqtt = 1;
@@ -229,12 +196,7 @@ int wifi_mqtt_publish(String mqtttopic, String msg)
     return 0;
   }
 }
-/***********************************************************************/
-//Nombre de la funcion :wifi_mqtt_subscribe()
-//Entrada: char mqtttopic[120]
-//Salida :int
-//Descripcion:Esta funcion es la encargada de subscribirse a un tema en BROKER MQTT WIFI
-/***********************************************************************/
+
 int wifi_mqtt_subscribe(String mqtttopic)
 {
   bussyMqtt = 1;
@@ -260,12 +222,7 @@ int wifi_mqtt_subscribe(String mqtttopic)
     return 0;
   }
 }
-/***********************************************************************/
-//Nombre de la funcion :wifi_mqtt_loop()
-//Entrada: Ninguna
-//Salida :Ninguna
-//Descripcion:Esta funcion es la encargada de manejar el cliente MQTT WIFI
-/***********************************************************************/
+
 void wifi_mqtt_loop()
 {
 
@@ -273,22 +230,24 @@ void wifi_mqtt_loop()
   if (abs(millis() - mqttdelay) >= 500)
   {
     Serial.println(tagId);
-    // mqtt_send_changes();
-    if ((tagId > 0)&&(tagId!=tagIdPrev))
-    { tagIdPrev=tagId;
-      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":\"" + String(tagId) + "\",\"ACTION\":\"START\"}");
-     
-    }
-    if ((tagId == 0)&&(tagId!=tagIdPrev))
-    { tagIdPrev=tagId;
-      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":\"" + String(tagId) + "\",\"ACTION\":\"STOP\"}");
-      
-    }
-    if (serverPoll){
 
-      if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"READER\",\"CHIP_ID\":\""+chipid+"\"}"))
-      { Serial.print("SE ENVIO POLL");
-        serverPoll=0;
+    if ((tagId > 0) && (tagId != tagIdPrev))
+    {
+      tagIdPrev = tagId;
+      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":\"" + String(tagId) + "\",\"ACTION\":\"START\"}");
+    }
+    if ((tagId == 0) && (tagId != tagIdPrev))
+    {
+      tagIdPrev = tagId;
+      wifi_mqtt_publish((clientId + "/out"), "{\"TAG\":\"" + String(tagId) + "\",\"ACTION\":\"STOP\"}");
+    }
+    if (serverPoll)
+    {
+
+      if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"READER\",\"CHIP_ID\":\"" + chipid + "\"}"))
+      {
+        Serial.print("SE ENVIO POLL");
+        serverPoll = 0;
       }
     }
     mqttdelay = millis();
