@@ -34,6 +34,7 @@ void loadsdconfig(String datar)
     String port_aux = datar.substring(coma6 + 1, coma7);
     String usermqtt_aux = datar.substring(coma7 + 1, coma8);
     String pwdmqtt_aux = datar.substring(coma8 + 1, coma9);
+    String devName_aux =ssid2_aux.substring(15,ssid2_aux.length());
     
     //String mqttdevname = datar.substring(coma9 + 1, coma10);
 
@@ -46,6 +47,7 @@ void loadsdconfig(String datar)
     memset(MQTTPort, '\0', sizeof(MQTTPort));         //
     memset(MQTTUsername, '\0', sizeof(MQTTUsername)); //
     memset(MQTTPassword, '\0', sizeof(MQTTPassword)); //
+    memset(devName, '\0', sizeof(devName)); //
 
     //Escritura de variables auxiliares a los parametros de configuración.
     ssid_aux.toCharArray(ssid, ssid_aux.length() + 1);
@@ -56,7 +58,7 @@ void loadsdconfig(String datar)
     port_aux.toCharArray(MQTTPort, port_aux.length() + 1);
     usermqtt_aux.toCharArray(MQTTUsername, usermqtt_aux.length() + 1);
     pwdmqtt_aux.toCharArray(MQTTPassword, pwdmqtt_aux.length() + 1);
-    // mqttdevname.toCharArray(MQTTClientID,mqttdevname.length()+1);
+    devName_aux.toCharArray(devName,devName_aux.length()+1);
 
     DEBUG_PRINTLN();
     DEBUG_PRINT("ssid:");
