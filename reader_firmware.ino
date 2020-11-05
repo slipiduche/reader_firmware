@@ -77,7 +77,7 @@ void APmode(void *parameter) ///APmode
     if (cambioIp)
     {
       apActivate = 1;
-      cambioIp=1;
+      cambioIp=0;
       setupAPSSID(1);
       web_setup();
     }
