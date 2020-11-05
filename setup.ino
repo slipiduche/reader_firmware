@@ -12,7 +12,7 @@ void setup()
 
   pinMode(wifiled, OUTPUT);
   wifiLedBlink();
-  DEBUG_PRINTLN("iniciando2");
+  DEBUG_PRINTLN("beginning2");
 
   chipid = get_chipidstr();
   clientId += String(chipid);
@@ -33,7 +33,7 @@ void setup()
   web_setup(); //apmode
   nfcSetup();  //nfc setup
   setup_dualcore();
-  DEBUG_PRINT("inicio0:");
+  DEBUG_PRINT("begin0:");
   DEBUG_PRINTLN(inicio);
   solicitud_web = 1;
 }
