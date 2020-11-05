@@ -16,16 +16,14 @@ void setup()
 
   chipid = get_chipidstr();
   clientId += String(chipid);
+  
   fun_spiff_setup(); //alocated in fun_spiff
   if (boottime == bootX)
   {
     read_spiffconfig1(); //alocated in fun_spiff
-
-    //read_spiffmodo(); //alocated in fun_spiff
   }
   else
-  {
-    //save_modo_spiff();
+  { setupAPSSID();
     save_config1_spiff();
     EEPROM.write(1, bootX); //(pos,data)
     EEPROM.commit();
@@ -74,4 +72,10 @@ String get_chipidstr()
   chip = String(ChipId16, HEX) + String(ChipId32, HEX);
   Serial.println(chip);
   return chip;
+}
+
+void setupAPSSID(){
+  String SSID2 = "&" + String(inicio) +"R"+ String(chipid) + String(devName);
+  String set1 = "set1," + String(ssid) + "," + String(password) + "," + SSID2 + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
+  loadsdconfig(set1);
 }

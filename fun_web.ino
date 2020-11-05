@@ -46,8 +46,8 @@ void dsetup()
     if (server.hasArg(String("APSSID")))
     {
 
-      memset(ssid2, '\0', sizeof(ssid2)); //
-      (server.arg(String("APSSID"))).toCharArray(ssid2, (server.arg(String("APSSID"))).length() + 1);
+      memset(devName, '\0', sizeof(devName)); //
+      (server.arg(String("APSSID"))).toCharArray(devName, (server.arg(String("APSSID"))).length() + 1);
     }
     if (server.hasArg(String("AP_Password")))
     {
@@ -82,9 +82,7 @@ void dsetup()
 
     if (modo_nowc == 1)
     {
-      String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
-      loadsdconfig(set1);
-      guardarAp = 1;
+      setupAPSSID();
       SendHTML_Header();
       webpage += F("<script>");
       webpage += F("  function pulsar(e) {");
@@ -104,8 +102,8 @@ void dsetup()
       webpage += ipRed;
       webpage += F("</b></p>");
       webpage += F("<p>AP SSID:<input type='text' name='APSSID' value='");
-      webpage += String(ssid2);
-      webpage += F("' minlength='4' maxlength='60' required onkeypress=\"return pulsar(event)\"></p>");
+      webpage += String(devName);
+      webpage += F("' minlength='4' maxlength='11' required onkeypress=\"return pulsar(event)\"></p>");
       webpage += F("<p>AP Password:<input type='text' name='AP_Password' value='");
       webpage += String(password2);
       webpage += F("' minlength='8' maxlength='60' required onkeypress=\"return pulsar(event)\"></p>");
@@ -132,6 +130,7 @@ void dsetup()
       append_page_footer();
       SendHTML_Content();
       SendHTML_Stop();
+      guardarAp = 1;
     }
   }
   else
@@ -155,8 +154,8 @@ void dsetup()
     webpage += ipRed;
     webpage += F("</b></p>");
     webpage += F("<p>AP SSID:<input type='text' name='APSSID' value='");
-    webpage += String(ssid2);
-    webpage += F("' minlength='4' maxlength='60' required onkeypress=\"return pulsar(event)\"></p>");
+    webpage += String(devName);
+    webpage += F("' minlength='4' maxlength='11' required onkeypress=\"return pulsar(event)\"></p>");
     webpage += F("<p>AP Password:<input type='text' name='AP_Password' value='");
     webpage += String(password2);
     webpage += F("' minlength='8' maxlength='60' required onkeypress=\"return pulsar(event)\"></p>");
@@ -259,13 +258,12 @@ void putData()
     }
     if (modo_nowc == 1)
     {
-      String set1 = "set1," + String(ssid) + "," + String(password) + "," + String(ssid2) + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
-      loadsdconfig(set1);
-      guardarAp = 1;
+      setupAPSSID();
       webpage = "";
       webpage += F("{\"MESSAGE\":\"SUCCESS\"}");
       SendJson(webpage);
       SendHTML_Stop();
+      guardarAp = 1;
     }
   }
   else

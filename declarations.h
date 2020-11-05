@@ -187,7 +187,7 @@ bool cambioFechaHora = false;
 #define PN532_MOSI (23)
 #define PN532_SS (15)
 #define PN532DEBUG
-#define bootX 5
+#define bootX 1
 /////NFC variables
 Adafruit_PN532 nfc(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS);
 long int nfcDelay = 0;
@@ -201,4 +201,4 @@ bool bussyMqtt = 0;
 String Shora = "", Sfecha = "", Sday = "", Smonth = "", Syear = "", Shr = "", Smin = "";
 /////server protocol
 bool serverPoll = 0; /// 
-char devName[10] = "room-x";
+char devName[11] = "room-x";
