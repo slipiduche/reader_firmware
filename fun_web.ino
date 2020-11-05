@@ -176,7 +176,7 @@ void dsetup()
     webpage += F("<p>ChipID: <b>");
     webpage += String(chipid);
     webpage += F("</b></p>");
-    webpage += F("<br><button class='buttons'  type='submit'><Send/button><br>");
+    webpage += F("<br><button class='buttons'  type='submit'>Send</button><br>");
     webpage += F("</FORM>");
     webpage += F("<a href='/'>[Back]</a><br><br> ");
     append_page_footer();
@@ -232,7 +232,7 @@ void getData()
 
 void putData()
 {
-  Serial.print("recbiendo datos GET....");
+  Serial.print("GET....");
   Serial.print(server.args());
   Serial.print(server.arg("plain"));
   String body = server.arg("plain");
