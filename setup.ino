@@ -11,6 +11,7 @@ void setup()
   Serial.begin(115200); // initialize serial for debugging
 
   pinMode(wifiled, OUTPUT);
+  pinMode(NFCPOWER, OUTPUT);
   wifiLedBlink();
   DEBUG_PRINTLN("beginning2");
 

@@ -42,7 +42,14 @@ ESP32WebServer server(80); //web server
 #define fun_spiff
 File logFile; 
 /**** REGISTERS ****/
+#define devBoard //comment if is final board
+#ifdef  devBoard
 #define wifiled 5                    //32 final board
+#define NFCPOWER 27 // 5 final board
+#else
+#define wifiled 32                    //32 final board
+#define NFCPOWER 5 // 5 final board
+#endif
 #define RetardoAntirebotePulsador 25 
 #define salidabajoactiva
 #ifdef salidabajoactiva 
