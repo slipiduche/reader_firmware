@@ -30,7 +30,8 @@ void setup()
     EEPROM.write(1, bootX); //(pos,data)
     EEPROM.commit();
   }
-  web_setup(); //apmode
+  
+  //web_setup(); //apmode
   nfcSetup();  //nfc setup
   setup_dualcore();
   DEBUG_PRINT("begin0:");

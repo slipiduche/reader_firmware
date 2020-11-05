@@ -180,6 +180,7 @@ int subscribed = 0;
 bool rtcFalla = 0;
 bool wifiLedState = false;
 bool apMode = 0;
+bool apActivate=0;
 bool guardarAp = 0;
 String ipRed = "0.0.0.0";
 bool cambioIp = 0;

@@ -68,6 +68,20 @@ void APmode(void *parameter) ///APmode
 {
   for (;;)
   {
+    if ((apMode) && (!apActivate))
+    {
+      apActivate = 1;
+      setupAPSSID(0);
+      web_setup();
+    }
+    if (cambioIp)
+    {
+      apActivate = 1;
+      cambioIp=1;
+      setupAPSSID(1);
+      web_setup();
+    }
+    
     //Serial.print("APmode() running on core ");
     //Serial.println(xPortGetCoreID());
     apweb_loop();

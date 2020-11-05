@@ -33,6 +33,7 @@ void wifi_mqtt_setup()
     {
       count = 0;
       apMode = 1;
+      setupAPSSID(0);
       break;
     }
     wifiLedBlink();

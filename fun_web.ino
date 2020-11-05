@@ -1,6 +1,6 @@
 
 void web_setup(void)
-{
+{ 
   DEBUG_PRINTLN("Creating Accesspoint");
   WiFi.softAP(ssid2, password2); //Create Access Point
   DEBUG_PRINT("AP IP address:\t");
