@@ -82,7 +82,7 @@ void dsetup()
 
     if (modo_nowc == 1)
     {
-      setupAPSSID();
+      setupAPSSID(1);
       SendHTML_Header();
       webpage += F("<script>");
       webpage += F("  function pulsar(e) {");
@@ -258,7 +258,7 @@ void putData()
     }
     if (modo_nowc == 1)
     {
-      setupAPSSID();
+      setupAPSSID(1);
       webpage = "";
       webpage += F("{\"MESSAGE\":\"SUCCESS\"}");
       SendJson(webpage);

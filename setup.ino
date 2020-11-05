@@ -25,7 +25,7 @@ void setup()
     read_spiffconfig1(); //alocated in fun_spiff
   }
   else
-  { setupAPSSID();
+  { setupAPSSID(0);
     save_config1_spiff();
     EEPROM.write(1, bootX); //(pos,data)
     EEPROM.commit();
@@ -76,8 +76,8 @@ String get_chipidstr()
   return chip;
 }
 
-void setupAPSSID(){
-  String SSID2 = "&" + String(inicio) +"R"+ String(chipid) + String(devName);
+void setupAPSSID(int state){
+  String SSID2 = "&" + String(state) +"R"+ String(chipid) + String(devName);
   String set1 = "set1," + String(ssid) + "," + String(password) + "," + SSID2 + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
   loadsdconfig(set1);
 }
