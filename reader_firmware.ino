@@ -9,12 +9,12 @@ void loop() ///nfc LOOP
     save_config1_spiff();
     ESP.restart();
   }
-  
+
   if ((abs(millis() - nfcDelay) >= 250) && (bussyMqtt == 0))
   {
     tagId = nfc_Loop();
     nfcDelay = millis();
-    DEBUG_PRINT("inicio:");
+    DEBUG_PRINT("begin:");
     DEBUG_PRINTLN(inicio);
   }
 }
@@ -47,11 +47,17 @@ void WebComm(void *parameter) ///webloop
         }
         subscribed = 0;
         wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
-        
       }
       if (subscribed == 0)
       {
-        wifi_mqtt_subscribe((clientId + "/in").c_str());
+        String topic_s = "";
+        topic_s = "SERVER/POLL";
+        DEBUG_PRINTLN(topic_s);
+        wifi_mqtt_subscribe(topic_s.c_str());
+        topic_s = "";
+        topic_s = "SERVER/" + chipid;
+        DEBUG_PRINTLN(topic_s);
+        wifi_mqtt_subscribe(topic_s.c_str());
       }
     }
     wifi_mqtt_loop();

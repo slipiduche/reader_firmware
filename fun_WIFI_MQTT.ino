@@ -23,7 +23,7 @@ void wifi_mqtt_setup()
   bussyMqtt = 1;
   count = 1;
   WiFi.begin(ssid, password);
-  DEBUG_PRINTLN("conectando wifi");
+  DEBUG_PRINTLN("wifi connecting...");
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(500);
