@@ -13,6 +13,7 @@ void setup()
   pinMode(wifiled, OUTPUT);
   pinMode(NFCPOWER, OUTPUT);
   wifiLedBlink();
+  NFCPOWEROn();
   DEBUG_PRINTLN("beginning2");
 
   chipid = get_chipidstr();
