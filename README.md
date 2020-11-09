@@ -1,4 +1,4 @@
-# reader_firmware
+# REGISTER_firmware
   Descripcion del Proyecto:
 
   Este proyecto consiste en un ESP32 como elemento central de control
@@ -13,7 +13,7 @@
   date                          8/12/2020
 
 
-  Nombre del archivo :         reader_firmware.ino
+  Nombre del archivo :         REGISTER_firmware.ino
 
 
 
@@ -38,7 +38,7 @@
 
 
 
-  Dispositivos : NFC reader pn532
+  Dispositivos : NFC REGISTER pn532
 
   La estructura del programa esta basada en funciones las cuales para facilidad de lectura estan almacenadas en archivos .ino que representan
   funcionalidades específicas del dispositivo, estos archivos deben estar en la carpeta de compilacion del archivo principal.
@@ -52,7 +52,7 @@
       fun_web.ino             --> controladores de web AP
       fun_WIFI_MQTT.ino       --> controladores para funciones de comunicación wifi y mqtt
       iocontrol.ino       --> control de salida 
-      reader_firmware.ino               --> programa principal (nombre de carpteta de compilacion reader_firmware)
+      REGISTER_firmware.ino               --> programa principal (nombre de carpteta de compilacion REGISTER_firmware)
       setup.ino               --> configuraciones de inicio.
       NFC.ino --> libreria nfc
     

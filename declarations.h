@@ -119,7 +119,7 @@ String formdata, vacio = "";
 /****WIFI****/
 char ssid[60] = "orbittas";     //WIFI SSID
 char password[60] = "20075194"; //WIFI PASSWORD
-char ssid2[60] = "Reader";       //AP SSID
+char ssid2[60] = "REGISTER";       //AP SSID
 char password2[60] = "12345678"; //AP PASSWORD
 String WRSSI;
 /****SPIFF****/
@@ -148,7 +148,7 @@ uint32_t ChipId32, wait = 0, wait2 = 0, wait3 = 0;
 uint16_t ChipId16;
 uint64_t ChipId;
 String chipid = "";
-String clientId = "READER/";
+String clientId = "REGISTER/";
 ///changes
 int modo_automatico_aux;
 int modo_nowc = 1;

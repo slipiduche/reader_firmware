@@ -1,7 +1,7 @@
 void append_page_header() {
   webpage  = F("<!DOCTYPE html><html lang=\"es\">");
   webpage += F("<head>");
-  webpage += F("<title>Reader</title>");
+  webpage += F("<title>REGISTER</title>");
   webpage += F("<link href=\"https://fonts.googleapis.com/css?family=Oxygen|Ubuntu&display=swap\" rel=\"stylesheet\">");
   webpage += F("<meta name='viewport' content='user-scalable=yes,initial-scale=1.0,width=device-width'>");
   webpage += F("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
@@ -33,7 +33,7 @@ void append_page_header() {
   webpage += F(".buttonw {border-radius:0.5em;background:#007993;padding:0.3em 0.3em;width:150px;color:white;font-size:70%;}");
   webpage += F("a{font-size:75%;}");
   webpage += F("p{font-size:75%;}");
-  webpage += F("</style></head><body><h1>Reader</h1>");
+  webpage += F("</style></head><body><h1>REGISTER</h1>");
 }
 
 void append_page_footer() {

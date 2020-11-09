@@ -245,7 +245,7 @@ void wifi_mqtt_loop()
     if (serverPoll)
     {
 
-      if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"" + String(devName) + "\",\"CHIP_ID\":\"" + chipid + "\"}"))
+      if (wifi_mqtt_publish(("REGISTER/INFO"), "{\"NAME\": \"" + String(devName) + "\",\"CHIP_ID\":\"" + chipid + "\"}"))
 
       {
         Serial.print("SE ENVIO POLL");

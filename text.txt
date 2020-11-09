@@ -42,7 +42,7 @@ Content-Disposition: form-data; name="Password"
 ------WebKitFormBoundaryJ4IG2Wr8rvBEfYyA
 Content-Disposition: form-data; name="APSSID"
 
-Reader
+REGISTER
 ------WebKitFormBoundaryJ4IG2Wr8rvBEfYyA
 Content-Disposition: form-data; name="AP_Password"
 
