@@ -1,7 +1,7 @@
 void append_page_header() {
   webpage  = F("<!DOCTYPE html><html lang=\"es\">");
   webpage += F("<head>");
-  webpage += F("<title>Register</title>");
+  webpage += F("<title>Reader</title>");
   webpage += F("<link href=\"https://fonts.googleapis.com/css?family=Oxygen|Ubuntu&display=swap\" rel=\"stylesheet\">");
   webpage += F("<meta name='viewport' content='user-scalable=yes,initial-scale=1.0,width=device-width'>");
   webpage += F("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
