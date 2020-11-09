@@ -245,16 +245,8 @@ void wifi_mqtt_loop()
     if (serverPoll)
     {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
       if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"" + String(devName) + "\",\"CHIP_ID\":\"" + chipid + "\"}"))
 
-=======
-      if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"READER\",\"CHIP_ID\":\"" + chipid + "\"}"))
->>>>>>> parent of 15a661a... register
-=======
-      if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"READER\",\"CHIP_ID\":\"" + chipid + "\"}"))
->>>>>>> parent of 15a661a... register
       {
         Serial.print("SE ENVIO POLL");
         serverPoll = 0;
