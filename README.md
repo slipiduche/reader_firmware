@@ -1,4 +1,4 @@
-# reader_firmware
+# register_firmware
   Descripcion del Proyecto:
 
   Este proyecto consiste en un ESP32 como elemento central de control

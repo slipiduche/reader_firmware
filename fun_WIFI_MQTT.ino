@@ -77,7 +77,7 @@ void wifi_mqtt_reconnect(char mqtttopic[120], char mqtttopic2[120])
     {
       DEBUG_PRINT("Attempting MQTT connection...");
 
-      String topic_s = clientId + "/out";
+      String topic_s = clientId;
 
       DEBUG_PRINTLN(MQTTUsername);
       DEBUG_PRINTLN(MQTTPassword);
@@ -131,7 +131,7 @@ void wifi_mqtt_reconnect_setup(char mqtttopic[120], char mqtttopic2[120])
     {
       DEBUG_PRINT("Attempting MQTT connection...");
 
-      topic_s = clientId + "/out";
+      topic_s = clientId;
       DEBUG_PRINTLN(topic_s);
 
       DEBUG_PRINTLN(MQTTUsername);
@@ -208,7 +208,7 @@ int wifi_mqtt_subscribe(String mqtttopic)
   {
     if (mqttclient.subscribe((mqtttopic).c_str()))
     {
-      wifi_mqtt_publish((clientId + "/out"), "{\"mqtt\": \"SUBSCRIBED\"}");
+      wifi_mqtt_publish((clientId), "{\"mqtt\": \"SUBSCRIBED\"}");
       DEBUG_PRINTLN("WSUBSCRIBE PACKET SENT");
       subscribed = 1;
       apMode = 0;
@@ -245,7 +245,7 @@ void wifi_mqtt_loop()
     if (serverPoll)
     {
 
-      if (wifi_mqtt_publish(("READER/INFO"), "{\"NAME\": \"READER\",\"CHIP_ID\":\"" + chipid + "\"}"))
+      if (wifi_mqtt_publish(("REGISTER/INFO"), "{\"NAME\": \""+String(devName)+"\",\"CHIP_ID\":\"" + chipid + "\"}"))
       {
         Serial.print("SE ENVIO POLL");
         serverPoll = 0;
