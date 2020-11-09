@@ -148,7 +148,7 @@ uint32_t ChipId32, wait = 0, wait2 = 0, wait3 = 0;
 uint16_t ChipId16;
 uint64_t ChipId;
 String chipid = "";
-String clientId = "reader/";
+String clientId = "READER/";
 ///changes
 int modo_automatico_aux;
 int modo_nowc = 1;
