@@ -34,13 +34,13 @@ uint32_t nfc_Loop(void)
 
   if (tag)
   {
-    // Display some basic information about the card
-    Serial.println("Found an ISO14443A card");
-    Serial.print("  UID Length: ");
-    Serial.print(uidLength, DEC);
-    Serial.println(" bytes");
-    Serial.print("  UID Value: ");
-    nfc.PrintHex(uid, uidLength);
+    // // Display some basic information about the card
+    // Serial.println("Found an ISO14443A card");
+    // Serial.print("  UID Length: ");
+    // Serial.print(uidLength, DEC);
+    // Serial.println(" bytes");
+    // Serial.print("  UID Value: ");
+    // nfc.PrintHex(uid, uidLength);
 
     if (uidLength == 4)
     {

@@ -3,6 +3,17 @@
 void loop() ///nfc LOOP
 {           //Serial.print("nfcloop running on core ");
   // Serial.println(xPortGetCoreID());
+  if (!digitalRead(0) && apMode == 0 && (abs(millis() - apDelay) >= 500))
+  {
+
+    apDelayCount++;
+    apDelay = millis();
+    if (apDelayCount > 5)
+    {
+      apMode = 1;
+      apActivate = 0;
+    }
+  }
   wifiLedBlink();
   if (guardarAp == 1)
   {
