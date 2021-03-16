@@ -44,6 +44,8 @@ void loop() ///nfc LOOP
     nfcDelay = millis();
     DEBUG_PRINT("begin:");
     DEBUG_PRINTLN(inicio);
+    DEBUG_PRINT("apMode:");
+    DEBUG_PRINTLN(apMode);
   }
 }
 void WebComm(void *parameter) ///webloop
@@ -51,11 +53,15 @@ void WebComm(void *parameter) ///webloop
 
   for (;;)
   {
-    if ((inicio == 0) && (apMode == 0))
+    if ((inicio == 0) && (goAP == 0) && (apMode == 0))
     {
       claimSPI("WebComm"); // Claim SPI bus
       wifi_mqtt_setup();
       releaseSPI(); // Release SPI bus
+      if (apMode != 0)
+      {
+        goAP = 1;
+      }
     }
     if ((inicio == 1) && (apMode != 1))
     { //DEBUG_PRINT("inicio1:");
@@ -64,15 +70,15 @@ void WebComm(void *parameter) ///webloop
       wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
       releaseSPI();                               // Release SPI bus
     }
-    //Serial.print("WebComm() running on core ");
+    // Serial.print("WebComm() running on core ");
     // Serial.println(xPortGetCoreID());
     //MQTT
     if ((inicio == 2) && (apMode != 1))
     {
       // DEBUG_PRINT("inicio2:");
       // DEBUG_PRINTLN(inicio);
-      // DEBUG_PRINT("client state:");
-      // DEBUG_PRINTLN(mqttclient.state());
+      DEBUG_PRINT("client state:");
+      DEBUG_PRINTLN(mqttclient.state());
       if (mqttclient.state() != 0 || subscribed == 0)
       {
         if (mqttclient.state() != -1) ///-1 disconnected
@@ -108,6 +114,7 @@ void WebComm(void *parameter) ///webloop
 
     if (mqttclient.state() == 0 && (apMode != 1))
     {
+      //Serial.print("aqui pasando");
       claimSPI("WebComm"); // Claim SPI bus
       wifi_mqtt_loop();
       releaseSPI(); // Release SPI bus

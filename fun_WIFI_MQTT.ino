@@ -220,7 +220,7 @@ int wifi_mqtt_subscribe(String mqtttopic)
       wifi_mqtt_publish((clientId), "{\"mqtt\": \"SUBSCRIBED\"}");
       DEBUG_PRINTLN("WSUBSCRIBE PACKET SENT");
       subscribed = 1;
-      apMode = 0;
+      apMode = 2;
       minutosEnApMode = 0;
       bussyMqtt = 0;
       return 1;
