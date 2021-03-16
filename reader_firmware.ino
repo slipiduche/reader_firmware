@@ -3,15 +3,30 @@
 void loop() ///nfc LOOP
 {           //Serial.print("nfcloop running on core ");
   // Serial.println(xPortGetCoreID());
-  if (!digitalRead(0) && apMode == 0 && (abs(millis() - apDelay) >= 500))
+  if (!digitalRead(0) && (apMode == 0) && (abs(millis() - apDelay) >= 500))
   {
 
     apDelayCount++;
     apDelay = millis();
     if (apDelayCount > 5)
     {
-      apMode = 1;
+      while (!digitalRead(0))
+      {
+        /* code */
+      }
+
+      count = 0;
+      if (apMode == 0)
+      {
+        apMode = 1;
+      }
+
       apActivate = 0;
+
+      Serial.print("ap forzado");
+      EEPROM.write(2, 25); //(pos,data) saber si entra en AP forzado
+      EEPROM.commit();
+      ESP.restart();
     }
   }
   wifiLedBlink();
@@ -42,7 +57,7 @@ void WebComm(void *parameter) ///webloop
       wifi_mqtt_setup();
       releaseSPI(); // Release SPI bus
     }
-    if ((inicio == 1) && (apMode == 0))
+    if ((inicio == 1) && (apMode != 1))
     { //DEBUG_PRINT("inicio1:");
       //DEBUG_PRINTLN(inicio);
       claimSPI("WebComm");                        // Claim SPI bus
@@ -52,7 +67,7 @@ void WebComm(void *parameter) ///webloop
     //Serial.print("WebComm() running on core ");
     // Serial.println(xPortGetCoreID());
     //MQTT
-    if ((inicio == 2) && (apMode == 0))
+    if ((inicio == 2) && (apMode != 1))
     {
       // DEBUG_PRINT("inicio2:");
       // DEBUG_PRINTLN(inicio);
@@ -91,12 +106,11 @@ void WebComm(void *parameter) ///webloop
       }
     }
 
-    if (mqttclient.state() == 0 && (apMode == 0))
+    if (mqttclient.state() == 0 && (apMode != 1))
     {
       claimSPI("WebComm"); // Claim SPI bus
       wifi_mqtt_loop();
       releaseSPI(); // Release SPI bus
-      
     }
   }
   vTaskDelay(10000);
@@ -105,7 +119,7 @@ void APmode(void *parameter) ///APmode
 {
   for (;;)
   {
-    if ((apMode) && (!apActivate))
+    if ((apMode) && (!apActivate) && goAP == 1)
     {
       apActivate = 1;
       setupAPSSID(0);
@@ -114,16 +128,21 @@ void APmode(void *parameter) ///APmode
     if (cambioIp)
     {
       apActivate = 1;
-      cambioIp=0;
+      cambioIp = 0;
       setupAPSSID(1);
       web_setup();
+      apMode = 2;
+      goAP = 1;
     }
-    
-    //Serial.print("APmode() running on core ");
-    //Serial.println(xPortGetCoreID());
-    claimSPI("apmode"); // Claim SPI bus
-    apweb_loop();
-    releaseSPI(); // Release SPI bus
+
+    if (apMode != 0 && apActivate == 1 && goAP == 1) /// apMode 1 forzado  2 ya conectado a una red wifi
+    {
+      // Serial.print("APmode() running on core ");
+      // Serial.println(xPortGetCoreID());
+      claimSPI("apmode"); // Claim SPI bus
+      apweb_loop();
+      releaseSPI(); // Release SPI bus
+    }
   }
   vTaskDelay(3000);
 }
