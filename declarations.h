@@ -179,7 +179,7 @@ bool guardarHorarios = 0;
 int subscribed = 0; 
 bool rtcFalla = 0;
 bool wifiLedState = false;
-bool apMode = 0;
+int apMode = 0;
 bool apActivate=0;
 bool guardarAp = 0;
 String ipRed = "0.0.0.0";
@@ -210,3 +210,23 @@ String Shora = "", Sfecha = "", Sday = "", Smonth = "", Syear = "", Shr = "", Sm
 /////server protocol
 bool serverPoll = 0; /// 
 char devName[11] = "room-x";
+long apDelay = 0;
+int apDelayCount = 0;
+
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+#include <SPI.h>
+
+#include <freertos/queue.h>
+#include <freertos/task.h>
+#include <esp_task_wdt.h>
+
+#include <driver/adc.h>
+
+#include <base64.h>
+SemaphoreHandle_t SPIsem = NULL; // For exclusive SPI usage
+TaskHandle_t maintask;           // Taskhandle for main task
+
+bool sendTag = 0;
+bool goAP = 0;

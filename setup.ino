@@ -18,25 +18,46 @@ void setup()
 
   chipid = get_chipidstr();
   clientId += String(chipid);
-  
+
   fun_spiff_setup(); //alocated in fun_spiff
   if (boottime == bootX)
   {
     read_spiffconfig1(); //alocated in fun_spiff
+    int aP = EEPROM.read(2);
+    if (aP == 25)
+    {
+      DEBUG_PRINTLN("eeprom AP");
+      setupAPSSID(0);
+      save_config1_spiff();
+      EEPROM.write(2, 0); //(pos,data)
+      EEPROM.commit();
+      apMode = 1;
+      goAP = 1;
+    }
   }
   else
-  { setupAPSSID(0);
+  {
+    setupAPSSID(0);
     save_config1_spiff();
     EEPROM.write(1, bootX); //(pos,data)
     EEPROM.commit();
+    apMode = 1;
+    goAP = 1;
   }
-  
+
   //web_setup(); //apmode
-  nfcSetup();  //nfc setup
+  nfcSetup();                             //nfc setup
+  maintask = xTaskGetCurrentTaskHandle(); // My taskhandle
+  SPIsem = xSemaphoreCreateMutex();
   setup_dualcore();
   DEBUG_PRINT("begin0:");
   DEBUG_PRINTLN(inicio);
   solicitud_web = 1;
+  WiFi.disconnect();
+  WiFi.mode(WIFI_OFF);
+  delay(1000); // short wait to ensure WIFI_OFF
+  WiFi.persistent(false);
+  WiFi.mode(WIFI_AP_STA);
 }
 
 TaskHandle_t Task2, Task3;
@@ -73,8 +94,9 @@ String get_chipidstr()
   ChipId32 = ((uint32_t)(ChipId));
 
   chip = String(ChipId16, HEX) + String(ChipId32, HEX);
-  while(chip.length()<12){
-    chip="0"+chip;
+  while (chip.length() < 12)
+  {
+    chip = "0" + chip;
   }
 
   Serial.println(chip);
@@ -82,8 +104,9 @@ String get_chipidstr()
   return chip;
 }
 
-void setupAPSSID(int state){
-  String SSID2 = "&" + String(state) +"R"+ String(chipid) + String(devName);
+void setupAPSSID(int state)
+{
+  String SSID2 = "&" + String(state) + "R" + String(chipid) + String(devName);
   String set1 = "set1," + String(ssid) + "," + String(password) + "," + SSID2 + "," + String(password2) + "," + String(MQTTHost) + "," + String(MQTTPort) + "," + String(MQTTUsername) + "," + String(MQTTPassword) + ",1,";
   loadsdconfig(set1);
 }
