@@ -38,9 +38,9 @@ void loop() ///nfc LOOP
 
   if ((abs(millis() - nfcDelay) >= 150) && (bussyMqtt == 0) && (apMode == 2))
   {
-    claimSPI("NFC"); // Claim SPI bus
+    // claimSPI("NFC"); // Claim SPI bus
     tagId = nfc_Loop();
-    releaseSPI(); // Release SPI bus
+    // releaseSPI(); // Release SPI bus
     nfcDelay = millis();
     DEBUG_PRINT("begin:");
     DEBUG_PRINTLN(inicio);
@@ -54,18 +54,18 @@ void WebComm(void *parameter) ///webloop
     if ((inicio == 0) && (apMode == 0))
     {
       //goAP = 0;
-      claimSPI("WebComm"); // Claim SPI bus
+      // claimSPI("WebComm"); // Claim SPI bus
       wifi_mqtt_setup();
-      releaseSPI(); // Release SPI bus
+      // releaseSPI(); // Release SPI bus
       goAP = 1;
     }
     if ((inicio == 1) && (apMode != 1))
     { //DEBUG_PRINT("inicio1:");
       //DEBUG_PRINTLN(inicio);
       //goAP = 0;
-      claimSPI("WebComm");                        // Claim SPI bus
+      // claimSPI("WebComm");                        // Claim SPI bus
       wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
-      releaseSPI();
+      // releaseSPI();
       //goAP = 1; // Release SPI bus
     }
     //Serial.print("WebComm() running on core ");
@@ -88,9 +88,9 @@ void WebComm(void *parameter) ///webloop
         {
           //goAP = 0;
           DEBUG_PRINT("esta pasando esto");
-          claimSPI("WebComm");                        // Claim SPI bus
+          // claimSPI("WebComm");                        // Claim SPI bus
           wifi_mqtt_reconnect(MQTTTopic, MQTTTopic2); //mqtt protocol
-          releaseSPI();                               // Release SPI bus
+          // releaseSPI();                               // Release SPI bus
           //goAP = 1;
         }
       }
@@ -101,15 +101,15 @@ void WebComm(void *parameter) ///webloop
         String topic_s = "";
         topic_s = "SERVER/POLL";
         DEBUG_PRINTLN(topic_s);
-        claimSPI("WebComm");
+        // claimSPI("WebComm");
         wifi_mqtt_subscribe(topic_s.c_str());
-        releaseSPI(); // Release SPI bus
+        // releaseSPI(); // Release SPI bus
         topic_s = "";
         topic_s = "SERVER/" + chipid;
         DEBUG_PRINTLN(topic_s);
-        claimSPI("WebComm");
+        // claimSPI("WebComm");
         wifi_mqtt_subscribe(topic_s.c_str());
-        releaseSPI(); // Release SPI bus
+        // releaseSPI(); // Release SPI bus
         //goAP = 1;
       }
     }
@@ -117,9 +117,9 @@ void WebComm(void *parameter) ///webloop
     if (mqttclient.state() == 0 && (apMode != 1))
     {
       //goAP = 0;
-      claimSPI("WebComm"); // Claim SPI bus
+      // claimSPI("WebComm"); // Claim SPI bus
       wifi_mqtt_loop();
-      releaseSPI(); // Release SPI bus
+      // releaseSPI(); // Release SPI bus
       //goAP = 1;
     }
   }
@@ -152,9 +152,9 @@ void APmode(void *parameter) ///APmode
     {
       // Serial.print("APmode() running on core ");
       // Serial.println(xPortGetCoreID());
-      claimSPI("apmode"); // Claim SPI bus
+      // claimSPI("apmode"); // Claim SPI bus
       apweb_loop();
-      releaseSPI(); // Release SPI bus
+      // releaseSPI(); // Release SPI bus
     }
   }
   vTaskDelay(3000);
