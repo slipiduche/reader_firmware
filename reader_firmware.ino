@@ -77,8 +77,8 @@ void WebComm(void *parameter) ///webloop
     {
       // DEBUG_PRINT("inicio2:");
       // DEBUG_PRINTLN(inicio);
-      DEBUG_PRINT("client state:");
-      DEBUG_PRINTLN(mqttclient.state());
+      // DEBUG_PRINT("client state:");
+      // DEBUG_PRINTLN(mqttclient.state());
       if (mqttclient.state() != 0 || subscribed == 0)
       {
         if (mqttclient.state() != -1) ///-1 disconnected
